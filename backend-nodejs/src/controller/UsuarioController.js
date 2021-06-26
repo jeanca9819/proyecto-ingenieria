@@ -8,8 +8,6 @@ exports.login = (req, res) => {
 
     db_conection.sql.connect(db_conection.config, function (err) {
 
-        
-        
         if (err) {
             console.log(err);
         }else{
@@ -27,6 +25,53 @@ exports.login = (req, res) => {
                       
                      res.json('Si existe');
                     }
+                }
+            });
+        }
+  
+    });
+};
+
+exports.clasificadores = (req, res) => {
+    db_conection.sql.connect(db_conection.config, function (err) {    
+        if (err) {
+            console.log(err);
+        }else{
+                        
+            db_conection.sql.query(
+                
+                "exec [dbo].[sp_clasificador]", function (err, result) {
+                
+                if (err) {
+                    console.log(err);
+                } else {                            
+                     res.json(result.recordset);
+                   
+                }
+            });
+        }
+  
+    });
+};
+
+exports.ingresarBoleta = (req, res) => {
+
+    const { usuarioId, asuntoDetallado, ipComputadora, clasificador } = req.body;
+
+    db_conection.sql.connect(db_conection.config, function (err) {
+
+        if (err) {
+            console.log(err);
+        }else{
+                        
+            db_conection.sql.query(
+                
+                "exec [dbo].[ingresarBoleta] '" + usuarioId + "','" + asuntoDetallado + "','" + ipComputadora + "','" + clasificador + "';", function (err, result) {
+                
+                if (err) {  
+                    console.log(err);
+                } else {
+                    res.json('Ingreso Correcto');
                 }
             });
         }

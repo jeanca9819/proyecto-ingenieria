@@ -26,6 +26,18 @@ export class RestService {
     );
   }
 
+  getClasificadores(): Observable<any> {
+    return this.http.get(endpoint + '/clasificadores/').pipe(
+      map(this.extractData),
+      catchError(this.handleError<any>('lista Clasificadores'))
+    );
+  }
+
+  addBoleta(boleta): Observable<any> {
+    return this.http.post<any>(endpoint + '/ingresarBoleta', boleta).pipe(
+      tap((boleta) => console.log('added boleta')));
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(error);

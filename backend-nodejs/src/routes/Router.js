@@ -6,4 +6,8 @@ const controller = require('../controller/UsuarioController');
 
 router.get('/login/:correo/:contrasenna/', controller.login);
 
+router.get('/clasificadores/', controller.clasificadores);
+
+router.post('/ingresarBoleta',controller.ingresarBoleta);
+
 module.exports = router;
