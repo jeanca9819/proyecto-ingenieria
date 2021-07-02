@@ -10,4 +10,6 @@ router.get('/clasificadores/', controller.clasificadores);
 
 router.post('/ingresarBoleta',controller.ingresarBoleta);
 
+router.get('/listarBoletas/:idUsuario/:permiso/', controller.listarBoletas);
+
 module.exports = router;

@@ -26,6 +26,21 @@ export class RestService {
     );
   }
 
+  getBoletas(idUsuario: any, permiso: any): Observable<any> {
+    return this.http.get(endpoint + '/listarBoletas/' + idUsuario + '/' + permiso).pipe(
+      map(this.extractData),
+      catchError(this.handleError<any>('boletas'))
+    );
+  }
+
+
+  getBoletaById(id): Observable<any> {
+    return this.http.get(endpoint + '/boletaId/' + id).pipe(
+      map(this.extractData),
+      catchError(this.handleError<any>('getBoletaById'))
+      );
+  }
+
   getClasificadores(): Observable<any> {
     return this.http.get(endpoint + '/clasificadores/').pipe(
       map(this.extractData),
