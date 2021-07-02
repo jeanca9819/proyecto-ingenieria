@@ -44,8 +44,12 @@ export class LoginComponent implements OnInit {
     }
     
     this.rest.login(this.loginForm.value.email, this.loginForm.value.password).subscribe((result) => { 
-      if(result == 'Si existe'){
-        this.router.navigate(['/main']);
+
+      let idUsuario = result.recordset[0].idUsuario;
+      let permiso = result.recordset[0].permiso;
+
+      if(idUsuario != null){
+        this.router.navigate(['/main'], {queryParams: {  idUsuario, permiso } });
       } else {
         this.showMsgError= true;
         this.showMsgRegistration= false;

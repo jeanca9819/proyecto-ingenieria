@@ -14,17 +14,39 @@ exports.login = (req, res) => {
                         
             db_conection.sql.query(
                 
-                "DECLARE @existeUsuario bit; exec [dbo].[existeUsuario] '" + correo+ "','" + contrasenna+"', @existeUsuario output; select @existeUsuario as existeUsuario", function (err, result) {
+                "DECLARE @permiso bit, @idUsuario smallint; exec [dbo].[existeUsuario2] '" + correo+ "','" + contrasenna+"', @permiso output, @idUsuario output; select @idUsuario as idUsuario, @permiso as permiso", function (err, result) {
                 
                 if (err) {
                     console.log(err);
                 } else {
-                    if (!result.recordset[0].existeUsuario){
-                        res.json('No existe');
-                    }else{
-                      
-                     res.json('Si existe');
-                    }
+                    res.json(result);
+                }
+            });
+        }
+  
+    });
+};
+
+exports.listarBoletas = (req, res) => {
+
+    const { idUsuario } = req.params;
+
+    const { permiso } = req.params;
+
+    db_conection.sql.connect(db_conection.config, function (err) {
+
+        if (err) {
+            console.log(err);
+        }else{
+                        
+            db_conection.sql.query(
+                
+                "exec [dbo].[spListarBoletas] '" + idUsuario+ "','" + permiso+"';", function (err, result) {
+                
+                if (err) {
+                    console.log(err);
+                } else {
+                    res.json([[result.recordsets[0]]]);
                 }
             });
         }
