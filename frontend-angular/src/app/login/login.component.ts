@@ -48,8 +48,10 @@ export class LoginComponent implements OnInit {
       let idUsuario = result.recordset[0].idUsuario;
       let permiso = result.recordset[0].permiso;
 
-      if(idUsuario != null){
+      if(idUsuario != null && permiso == 0){
         this.router.navigate(['/main'], {queryParams: {  idUsuario, permiso } });
+      }else if(idUsuario != null && permiso == 1){
+        this.router.navigate(['/administrador'], {queryParams: {  idUsuario, permiso } });
       } else {
         this.showMsgError= true;
         this.showMsgRegistration= false;

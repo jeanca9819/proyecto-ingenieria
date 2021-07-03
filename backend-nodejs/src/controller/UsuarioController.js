@@ -76,6 +76,31 @@ exports.clasificadores = (req, res) => {
     });
 };
 
+exports.boletaById = (req, res) => {
+
+    const { idBoleta } = req.params;
+
+    db_conection.sql.connect(db_conection.config, function (err) {
+
+        if (err) {
+            console.log(err);
+        }else{
+
+            db_conection.sql.query(
+                
+                "exec [dbo].[obtenerBoleta] '" + idBoleta + "';", function (err, result) {
+                
+                if (err) {
+                    console.log(err);
+                } else {
+                    res.json([[result.recordsets[0]]]);
+                }
+            });
+        }
+  
+    });
+};
+
 exports.ingresarBoleta = (req, res) => {
 
     const { usuarioId, asuntoDetallado, ipComputadora, clasificador } = req.body;

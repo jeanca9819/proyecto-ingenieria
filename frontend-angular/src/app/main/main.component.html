@@ -93,7 +93,7 @@
 
       <ng-container matColumnDef="accion">
         <th mat-header-cell  *matHeaderCellDef> Acciones </th>
-        <td mat-cell *matCellDef="let element" > <button mat-button class="btn btn-primary" (click)="getBoletaById(element.idBoleta)">Detalles</button></td>
+        <td mat-cell *matCellDef="let element" > <button mat-button class="btn btn-primary" (click)="detalle(element.idBoleta)">Consultar</button></td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

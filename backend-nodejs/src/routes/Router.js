@@ -12,4 +12,6 @@ router.post('/ingresarBoleta',controller.ingresarBoleta);
 
 router.get('/listarBoletas/:idUsuario/:permiso/', controller.listarBoletas);
 
+router.get('/boletaById/:idBoleta/', controller.boletaById);
+
 module.exports = router;

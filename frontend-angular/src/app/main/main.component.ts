@@ -67,12 +67,6 @@ ngOnInit() {
     });
   }
 
-  getBoletaById(id:number){
-    this.rest.getBoletaById(id).subscribe((data: {}) => {
-      this.boletaCompleta = data;
-    });
-  }
-
   add() {
     
     if (!this.queryForm.valid) {
@@ -90,5 +84,9 @@ ngOnInit() {
       this.showMsgError= true;
       this.showMsgRegistration= false;
     });
+  }
+
+  detalle(idBoleta:number){
+    this.router.navigate(['/consultar'], {queryParams: {  idBoleta } });
   }
 }
