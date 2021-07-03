@@ -35,7 +35,7 @@ export class RestService {
 
 
   getBoletaById(id): Observable<any> {
-    return this.http.get(endpoint + '/boletaId/' + id).pipe(
+    return this.http.get(endpoint + '/boletaById/' + id).pipe(
       map(this.extractData),
       catchError(this.handleError<any>('getBoletaById'))
       );

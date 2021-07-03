@@ -1,0 +1,32 @@
+table {
+    width: 100%;
+  }
+  
+  #button-row {
+    display: table-cell;
+    width: 490px;
+  }
+  
+  #line h1 {
+    text-align: center;
+  }
+  
+  #close-session {
+    text-align: right;
+    margin-right: 25px;
+  }
+  
+  .margin {
+    margin-left: 50px;
+  }
+  
+  textarea {
+    resize: none;
+    height: 150px;
+  }
+  
+  #btn-margin {
+    margin-left: 100px;
+  }
+
+  

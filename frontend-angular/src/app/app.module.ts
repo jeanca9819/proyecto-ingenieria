@@ -11,6 +11,9 @@ import {FormsModule, ReactiveFormsModule } from '@angular/forms';
 //Componentes
 import { LoginComponent } from './login/login.component';
 import { MainComponent } from './main/main.component';
+import { MainAdministradorComponent } from './main-administrador/main-administrador.component';
+import { ResolverComponent } from './resolver/resolver.component';
+import { ConsultarComponent } from './consultar/consultar.component';
 
 //Angular Material
 import {MatCardModule} from '@angular/material/card';
@@ -26,6 +29,21 @@ const appRoutes: Routes = [
     path: 'main',
     component: MainComponent,
     data: { title: 'Main' }
+  },
+  {
+    path: 'administrador',
+    component: MainAdministradorComponent,
+    data: { title: 'Main Administrador' }
+  },
+  {
+    path: 'resolver',
+    component: ResolverComponent,
+    data: { title: 'Resolver' }
+  },
+  {
+    path: 'consultar',
+    component: ConsultarComponent,
+    data: { title: 'Consultar' }
   },
   {
     path: 'login',
@@ -44,7 +62,10 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     LoginComponent,
-    MainComponent
+    MainComponent,
+    MainAdministradorComponent,
+    ResolverComponent,
+    ConsultarComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

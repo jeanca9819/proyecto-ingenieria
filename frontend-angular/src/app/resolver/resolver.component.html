@@ -1,0 +1,30 @@
+<div *ngIf="boleta">
+    <h2>Resolver Consulta # {{boleta.idBoleta}} </h2>
+    <div>
+      <label>Fecha y Hora:
+        <input [disabled]="true" [(ngModel)]="boleta.fechaHora"/>
+      </label><br>
+      <label>Asunto Detallado:
+        <input [disabled]="true" [(ngModel)]="boleta.asuntoDetallado"/>
+      </label><br>
+      <label>Descripción:
+        <input [disabled]="true" [(ngModel)]="boleta.descripcion"/>
+      </label><br>
+      <label>Estado:
+        <input [disabled]="true" [(ngModel)]="boleta.estado"/>
+      </label><br>
+      <label>Nombre:
+        <input [disabled]="true" [(ngModel)]="boleta.Nombre"/>
+      </label><br>
+      <label>Apellidos:
+        <input [disabled]="true" [(ngModel)]="boleta.apellidos"/>
+      </label><br>
+      <label>Correo:
+        <input [disabled]="true" [(ngModel)]="boleta.correo"/>
+      </label><br>
+      <label>Respuesta:
+        <input placeholder="Respuesta" id="respuesta"/>
+      </label><br>
+    </div>
+    <button (click)="responder()">Resolver</button>
+  </div>
