@@ -11,14 +11,28 @@ export class ConsultarComponent implements OnInit {
 
   boleta:any;
   idBoleta:any;
-  
+  respuesta:any;
+
   constructor(public rest:RestService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
+    this.obtenerBoleta();
+  }
+
+  obtenerBoleta(){
     this.idBoleta = this.route.snapshot.queryParamMap.get('idBoleta');
     this.rest.getBoletaById(this.idBoleta).subscribe((data: {}) => {
       this.boleta = data[0][0][0];
-      console.log(this.boleta);
+      let idRespuestaObtenido = this.boleta.idRespuesta;
+      if(idRespuestaObtenido != null){
+        this.obtenerRespuesta(idRespuestaObtenido);
+      }
+    });
+  }
+
+  obtenerRespuesta(idRespuesta){
+    this.rest.getRespuestaById(idRespuesta).subscribe((data: {}) => {
+      this.respuesta = data[0][0][0];
     });
   }
 }

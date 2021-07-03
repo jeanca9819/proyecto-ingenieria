@@ -101,6 +101,31 @@ exports.boletaById = (req, res) => {
     });
 };
 
+exports.respuestaById = (req, res) => {
+
+    const { idRespuesta } = req.params;
+
+    db_conection.sql.connect(db_conection.config, function (err) {
+
+        if (err) {
+            console.log(err);
+        }else{
+
+            db_conection.sql.query(
+                
+                "exec [dbo].[obtenerRespuesta] '" + idRespuesta + "';", function (err, result) {
+                
+                if (err) {
+                    console.log(err);
+                } else {
+                    res.json([[result.recordsets[0]]]);
+                }
+            });
+        }
+  
+    });
+};
+
 exports.ingresarBoleta = (req, res) => {
 
     const { usuarioId, asuntoDetallado, ipComputadora, clasificador } = req.body;
@@ -114,6 +139,31 @@ exports.ingresarBoleta = (req, res) => {
             db_conection.sql.query(
                 
                 "exec [dbo].[ingresarBoleta] '" + usuarioId + "','" + asuntoDetallado + "','" + ipComputadora + "','" + clasificador + "';", function (err, result) {
+                
+                if (err) {  
+                    console.log(err);
+                } else {
+                    res.json('Ingreso Correcto');
+                }
+            });
+        }
+  
+    });
+};
+
+exports.ingresarRespuesta = (req, res) => {
+
+    const { idBoleta, idUsuarioRespuesta, ipComputadora, detalleRespuesta } = req.body;
+
+    db_conection.sql.connect(db_conection.config, function (err) {
+
+        if (err) {
+            console.log(err);
+        }else{
+                        
+            db_conection.sql.query(
+                
+                "exec [dbo].[insertarRespuesta] '" + detalleRespuesta + "','" + idUsuarioRespuesta + "','" + ipComputadora + "','" + idBoleta + "';", function (err, result) {
                 
                 if (err) {  
                     console.log(err);

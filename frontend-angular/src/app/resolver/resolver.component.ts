@@ -17,6 +17,8 @@ export class ResolverComponent implements OnInit {
   ipAddress:string = '';
   respuesta:any;
   respuestaForm: FormGroup;
+  showMsgError: boolean = false;
+  showMsgRegistration: boolean = false;
   
   constructor(public rest:RestService, private route: ActivatedRoute, private fb: FormBuilder,
     private router: Router, private visitorsService:VisitorsService) {
@@ -49,9 +51,14 @@ export class ResolverComponent implements OnInit {
     this.respuestaForm.controls['ipComputadora'].setValue(this.ipAddress);
     this.respuestaForm.controls['detalleRespuesta'].setValue(this.respuesta);
 
-    console.log(this.respuestaForm);
+    this.rest.addRespuesta(this.respuestaForm.value).subscribe((result) => {
+      this.showMsgError= false;
+      this.showMsgRegistration= true;
+    }, (err) => {
+      this.showMsgError= true;
+      this.showMsgRegistration= false;
+    });
   }
-
 }
 
 

@@ -1,5 +1,15 @@
 <div *ngIf="boleta">
     <h2>Resolver Consulta # {{boleta.idBoleta}} </h2>
+    <div class="row"  *ngIf="showMsgError">
+      <p class="alert alert-danger">
+        <strong>Error: </strong>La respuesta no se registró correctamente.
+      </p>
+  </div>
+  <div class="row"  *ngIf="showMsgRegistration">
+    <p class="alert alert-success">
+      <strong>Excelente: </strong>Se registró correctamente su respuesta.
+    </p>
+  </div>
     <div>
       <label>Fecha y Hora:
         <input [disabled]="true" [(ngModel)]="boleta.fechaHora"/>

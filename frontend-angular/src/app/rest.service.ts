@@ -41,6 +41,13 @@ export class RestService {
       );
   }
 
+  getRespuestaById(id): Observable<any> {
+    return this.http.get(endpoint + '/respuestaById/' + id).pipe(
+      map(this.extractData),
+      catchError(this.handleError<any>('getRespuestaById'))
+      );
+  }
+
   getClasificadores(): Observable<any> {
     return this.http.get(endpoint + '/clasificadores/').pipe(
       map(this.extractData),
@@ -51,6 +58,11 @@ export class RestService {
   addBoleta(boleta): Observable<any> {
     return this.http.post<any>(endpoint + '/ingresarBoleta', boleta).pipe(
       tap((boleta) => console.log('added boleta')));
+  }
+
+  addRespuesta(respuesta): Observable<any> {
+    return this.http.post<any>(endpoint + '/ingresarRespuesta', respuesta).pipe(
+      tap((respuesta) => console.log('Respuesta agregada')));
   }
 
   private handleError<T>(operation = 'operation', result?: T) {
