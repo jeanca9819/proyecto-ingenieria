@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RestService } from '../rest.service';
+import{ GlobalConstants } from '../globals';
 
 @Component({
   selector: 'app-login',
@@ -45,18 +46,17 @@ export class LoginComponent implements OnInit {
     
     this.rest.login(this.loginForm.value.email, this.loginForm.value.password).subscribe((result) => { 
 
-      let idUsuario = result.recordset[0].idUsuario;
-      let permiso = result.recordset[0].permiso;
+      GlobalConstants.idLogin = result.recordset[0].idUsuario;
+      GlobalConstants.permiso = result.recordset[0].permiso;
 
-      if(idUsuario != null && permiso == 0){
-        this.router.navigate(['/main'], {queryParams: {  idUsuario, permiso } });
-      }else if(idUsuario != null && permiso == 1){
-        this.router.navigate(['/administrador'], {queryParams: {  idUsuario, permiso } });
+      if(GlobalConstants.idLogin != null && GlobalConstants.permiso == 0){
+        this.router.navigate(['/main']);
+      }else if(GlobalConstants.idLogin != null && GlobalConstants.permiso == 1){
+        this.router.navigate(['/administrador']);
       } else {
         this.showMsgError= true;
         this.showMsgRegistration= false;
       }
-      
     }, (err) => {
       this.showMsgError= true;
       this.showMsgRegistration= false;

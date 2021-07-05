@@ -3,6 +3,7 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import { RestService } from '../rest.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import{ GlobalConstants } from '../globals';
 
 @Component({
   selector: 'app-main-administrador',
@@ -11,7 +12,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class MainAdministradorComponent implements OnInit {
 
-  //queryForm: FormGroup;
   errorMessage: any;
   displayedColumns: string[] = ['idBoleta', 'fechaHora', 'asuntoDetallado', 'descripcion', 'estado', 'accion'];
   dataSource = new MatTableDataSource<any>();
@@ -19,21 +19,17 @@ export class MainAdministradorComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   showMsgError: boolean = false;
   showMsgRegistration: boolean = false;
-  idUsuario: any;
-  permiso: any;
   boletaCompleta:any;
   constructor(public rest:RestService, private route: ActivatedRoute,
     private router: Router) {
 
 }
 ngOnInit() {
-  this.idUsuario = this.route.snapshot.queryParamMap.get('idUsuario');
-  this.permiso = this.route.snapshot.queryParamMap.get('permiso');
   this.getBoletas();
 }
 
   getBoletas(){
-    this.rest.getBoletas(this.idUsuario, this.permiso).subscribe((data: {}) => {
+    this.rest.getBoletas(GlobalConstants.idLogin, GlobalConstants.permiso).subscribe((data: {}) => {
       this.element = data[0][0];
       this.dataSource.data=(this.element);
       this.dataSource.paginator = this.paginator;
@@ -43,12 +39,20 @@ ngOnInit() {
   getBoletaById(id:number){
     this.rest.getBoletaById(id).subscribe((data: {}) => {
       this.boletaCompleta = data[0][0];
-      console.log(this.boletaCompleta);
     });
   }
 
   detalle(idBoleta:number){
-    let idUsuario2 = this.idUsuario;
-    this.router.navigate(['/resolver'], {queryParams: {  idBoleta, idUsuario2 } });
+    GlobalConstants.idBoletaActual = idBoleta;
+    this.router.navigate(['/resolver']);
+  }
+
+  
+  salir(){
+    GlobalConstants.idLogin = 0;
+    GlobalConstants.permiso = 0;
+    GlobalConstants.idBoletaActual = 0;
+    GlobalConstants.ipAddress = '';
+    this.router.navigate(['/login']);
   }
 }

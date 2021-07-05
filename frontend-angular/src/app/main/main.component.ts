@@ -5,6 +5,7 @@ import { RestService } from '../rest.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { VisitorsService } from '../visitors.service';
+import{ GlobalConstants } from '../globals';
 
 @Component({
   selector: 'app-main',
@@ -22,10 +23,8 @@ export class MainComponent implements OnInit {
   clasificadores:any=[];
   showMsgError: boolean = false;
   showMsgRegistration: boolean = false;
-  idUsuario: any;
-  permiso: any;
-  ipAddress:string = '';
   boletaCompleta:any;
+
   constructor(public rest:RestService, private fb: FormBuilder, private route: ActivatedRoute,
     private router: Router, private visitorsService:VisitorsService) {
 
@@ -43,17 +42,15 @@ export class MainComponent implements OnInit {
 
 }
 ngOnInit() {
-  this.idUsuario = this.route.snapshot.queryParamMap.get('idUsuario');
-  this.permiso = this.route.snapshot.queryParamMap.get('permiso');
   this.visitorsService.getIpAddress().subscribe(res => {
-    this.ipAddress = res['ip'];
+    GlobalConstants.ipAddress = res['ip'];
   });
   this.getClasificadores();
   this.getBoletas();
 }
 
   getBoletas(){
-    this.rest.getBoletas(this.idUsuario, this.permiso).subscribe((data: {}) => {
+    this.rest.getBoletas(GlobalConstants.idLogin, GlobalConstants.permiso).subscribe((data: {}) => {
       this.element = data[0][0];
       this.dataSource.data=(this.element);
       this.dataSource.paginator = this.paginator;
@@ -73,8 +70,8 @@ ngOnInit() {
       return;
     }
 
-    this.queryForm.controls['usuarioId'].setValue(this.idUsuario);
-    this.queryForm.controls['ipComputadora'].setValue(this.ipAddress);
+    this.queryForm.controls['usuarioId'].setValue(GlobalConstants.idLogin);
+    this.queryForm.controls['ipComputadora'].setValue(GlobalConstants.ipAddress);
 
     this.rest.addBoleta(this.queryForm.value).subscribe((result) => {
       this.getBoletas();
@@ -87,6 +84,15 @@ ngOnInit() {
   }
 
   detalle(idBoleta:number){
-    this.router.navigate(['/consultar'], {queryParams: {  idBoleta } });
+    GlobalConstants.idBoletaActual = idBoleta;
+    this.router.navigate(['/consultar']);
+  }
+
+  salir(){
+    GlobalConstants.idLogin = 0;
+    GlobalConstants.permiso = 0;
+    GlobalConstants.idBoletaActual = 0;
+    GlobalConstants.ipAddress = '';
+    this.router.navigate(['/login']);
   }
 }

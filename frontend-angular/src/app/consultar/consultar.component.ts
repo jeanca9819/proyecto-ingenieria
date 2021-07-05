@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild} from '@angular/core';
 import { RestService } from '../rest.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import{ GlobalConstants } from '../globals';
 
 @Component({
   selector: 'app-consultar',
@@ -10,7 +11,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class ConsultarComponent implements OnInit {
 
   boleta:any;
-  idBoleta:any;
   respuesta:any;
 
   constructor(public rest:RestService, private route: ActivatedRoute, private router: Router) { }
@@ -20,8 +20,7 @@ export class ConsultarComponent implements OnInit {
   }
 
   obtenerBoleta(){
-    this.idBoleta = this.route.snapshot.queryParamMap.get('idBoleta');
-    this.rest.getBoletaById(this.idBoleta).subscribe((data: {}) => {
+    this.rest.getBoletaById(GlobalConstants.idBoletaActual).subscribe((data: {}) => {
       this.boleta = data[0][0][0];
       let idRespuestaObtenido = this.boleta.idRespuesta;
       if(idRespuestaObtenido != null){
@@ -35,6 +34,10 @@ export class ConsultarComponent implements OnInit {
       this.respuesta = data[0][0][0];
     });
   }
+
+  atras(){
+    this.router.navigate(['/main']);
+  } 
 }
 
 
