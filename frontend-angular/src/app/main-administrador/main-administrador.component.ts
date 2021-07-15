@@ -3,7 +3,6 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import { RestService } from '../rest.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import{ GlobalConstants } from '../globals';
 
 @Component({
   selector: 'app-main-administrador',
@@ -20,6 +19,8 @@ export class MainAdministradorComponent implements OnInit {
   showMsgError: boolean = false;
   showMsgRegistration: boolean = false;
   boletaCompleta:any;
+  idUsuario:any;
+  permiso:any;
   constructor(public rest:RestService, private route: ActivatedRoute,
     private router: Router) {
 
@@ -29,7 +30,9 @@ ngOnInit() {
 }
 
   getBoletas(){
-    this.rest.getBoletas(GlobalConstants.idLogin, GlobalConstants.permiso).subscribe((data: {}) => {
+    this.idUsuario = localStorage.getItem("idUsuario");
+    this.permiso = localStorage.getItem("permiso");
+    this.rest.getBoletas(this.idUsuario, this.permiso).subscribe((data: {}) => {
       this.element = data[0][0];
       this.dataSource.data=(this.element);
       this.dataSource.paginator = this.paginator;
@@ -42,17 +45,17 @@ ngOnInit() {
     });
   }
 
-  detalle(idBoleta:number){
-    GlobalConstants.idBoletaActual = idBoleta;
+  detalle(idBoleta:any){
+    localStorage.setItem("idBoleta", idBoleta);
     this.router.navigate(['/resolver']);
   }
 
   
   salir(){
-    GlobalConstants.idLogin = 0;
-    GlobalConstants.permiso = 0;
-    GlobalConstants.idBoletaActual = 0;
-    GlobalConstants.ipAddress = '';
+    localStorage.removeItem("idUsuario");
+    localStorage.removeItem("permiso");
+    localStorage.removeItem("ipUsuario");
+    localStorage.removeItem("idBoleta");
     this.router.navigate(['/login']);
   }
 }

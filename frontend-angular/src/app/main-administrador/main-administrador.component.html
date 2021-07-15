@@ -1,13 +1,33 @@
+<nav>
+  <ul>
+    <li><a href="/administrador">Consultas</a></li>
+    <li><a href="#">Reportes</a>
+      <ul>
+        <li><a href="#">Fechas</a></li>
+        <li><a href="#">Departamento</a></li>
+        <li><a href="#">Usuario</a></li>
+        <li><a href="#">Clasificador</a></li>
+        <li><a href="#">Tema</a></li>
+        <li><a href="#">Departamento</a></li>
+        <li><a href="#">Mensual</a></li>
+
+      </ul>
+    </li>
+    <li><a href="#">Cubo</a></li>
+    <li><button mat-icon-button aria-label="Cerrar Sesión">
+      <mat-icon (click)="salir()" style="color: white;">exit_to_app</mat-icon>
+    </button></li>
+  </ul>
+</nav>
 <br>
-<div id="close-session">
-  <button mat-icon-button aria-label="Cerrar Sesión">
-    <mat-icon (click)="salir()">exit_to_app</mat-icon>
-  </button>
-</div>
 <div style="text-align: center;">
   <h1>¡Te damos la bienvenida!</h1>
 </div>
 <mat-divider></mat-divider><br>
+
+<button mat-raised-button style="background-color: green; color: white; margin: 20px;"> Excel </button>
+
+<button style="margin-left: 20px;" mat-raised-button color="warn"> PDF </button>
 
 <div id="line">
   <h1>Consultas</h1>

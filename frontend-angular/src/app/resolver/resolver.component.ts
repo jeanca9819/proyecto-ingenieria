@@ -3,7 +3,6 @@ import { RestService } from '../rest.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { VisitorsService } from '../visitors.service';
-import{ GlobalConstants } from '../globals';
 
 @Component({
   selector: 'app-resolver',
@@ -33,18 +32,18 @@ export class ResolverComponent implements OnInit {
 
   ngOnInit() {
     this.visitorsService.getIpAddress().subscribe(res => {
-      GlobalConstants.ipAddress = res['ip'];
+      localStorage.setItem("ipUsuario", res['ip']);
     });
-    this.rest.getBoletaById(GlobalConstants.idBoletaActual).subscribe((data: {}) => {
+    this.rest.getBoletaById( localStorage.getItem("idBoleta")).subscribe((data: {}) => {
       this.boleta = data[0][0][0];
     });
   }
 
   responder(){
     this.respuesta = (<HTMLInputElement>document.getElementById("respuesta")).value;
-    this.respuestaForm.controls['idBoleta'].setValue(GlobalConstants.idBoletaActual);
-    this.respuestaForm.controls['idUsuarioRespuesta'].setValue(GlobalConstants.idLogin);
-    this.respuestaForm.controls['ipComputadora'].setValue(GlobalConstants.ipAddress);
+    this.respuestaForm.controls['idBoleta'].setValue( localStorage.getItem("idBoleta"));
+    this.respuestaForm.controls['idUsuarioRespuesta'].setValue(localStorage.getItem("idUsuario"));
+    this.respuestaForm.controls['ipComputadora'].setValue(localStorage.getItem("ipUsuario"));
     this.respuestaForm.controls['detalleRespuesta'].setValue(this.respuesta);
 
     this.rest.addRespuesta(this.respuestaForm.value).subscribe((result) => {
@@ -59,6 +58,13 @@ export class ResolverComponent implements OnInit {
   atras(){
     this.router.navigate(['/administrador']);
   } 
+  salir(){
+    localStorage.removeItem("idUsuario");
+    localStorage.removeItem("permiso");
+    localStorage.removeItem("ipUsuario");
+    localStorage.removeItem("idBoleta");
+    this.router.navigate(['/login']);
+  }
 }
 
 

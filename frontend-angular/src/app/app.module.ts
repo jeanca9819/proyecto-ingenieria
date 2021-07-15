@@ -14,6 +14,7 @@ import { MainComponent } from './main/main.component';
 import { MainAdministradorComponent } from './main-administrador/main-administrador.component';
 import { ResolverComponent } from './resolver/resolver.component';
 import { ConsultarComponent } from './consultar/consultar.component';
+import { AgregarComponent } from './agregar/agregar.component';
 
 //Angular Material
 import {MatCardModule} from '@angular/material/card';
@@ -46,6 +47,11 @@ const appRoutes: Routes = [
     data: { title: 'Consultar' }
   },
   {
+    path: 'agregar',
+    component: AgregarComponent,
+    data: { title: 'Agregar' }
+  },
+  {
     path: 'login',
     component: LoginComponent,
     data: { title: 'Login' }
@@ -65,7 +71,8 @@ const appRoutes: Routes = [
     MainComponent,
     MainAdministradorComponent,
     ResolverComponent,
-    ConsultarComponent
+    ConsultarComponent,
+    AgregarComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

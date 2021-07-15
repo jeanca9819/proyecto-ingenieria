@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RestService } from '../rest.service';
-import{ GlobalConstants } from '../globals';
 
 @Component({
   selector: 'app-login',
@@ -46,12 +45,15 @@ export class LoginComponent implements OnInit {
     
     this.rest.login(this.loginForm.value.email, this.loginForm.value.password).subscribe((result) => { 
 
-      GlobalConstants.idLogin = result.recordset[0].idUsuario;
-      GlobalConstants.permiso = result.recordset[0].permiso;
+      localStorage.setItem("idUsuario", result.recordset[0].idUsuario);
+      localStorage.setItem("permiso", result.recordset[0].permiso);
 
-      if(GlobalConstants.idLogin != null && GlobalConstants.permiso == 0){
+      var idUsuario = localStorage.getItem("idUsuario");
+      var permiso = localStorage.getItem("permiso");
+
+      if(idUsuario != null && permiso == "false"){
         this.router.navigate(['/main']);
-      }else if(GlobalConstants.idLogin != null && GlobalConstants.permiso == 1){
+      }else if(idUsuario != null && permiso  == "true"){
         this.router.navigate(['/administrador']);
       } else {
         this.showMsgError= true;

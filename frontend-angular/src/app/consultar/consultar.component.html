@@ -1,18 +1,33 @@
-<div *ngIf="boleta">
-    <h2>Consulta de la boleta # {{boleta.idBoleta}} </h2>
-    <div><span>Fecha y Hora: </span>{{boleta.fechaHora}}</div>
-    <div><span>Asunto Detallado: </span>{{boleta.asuntoDetallado}}</div>
-    <div><span>Descripción: </span>{{boleta.descripcion}}</div>
-    <div><span>Estado: </span>{{boleta.estado}}</div>
-    <div><span>Nombre: </span>{{boleta.Nombre}}</div>
-    <div><span>Apellidos: </span>{{boleta.apellidos}}</div>
-    <div><span>Correo: </span>{{boleta.correo}}</div>
-    <br />
-    <br />
-    <h2>Respuesta de la boleta # {{boleta.idBoleta}} </h2>
-    <div><span>Respuesta: </span>{{respuesta.detalleRespuesta}}</div>
-    <div><span>Fecha y Hora: </span>{{respuesta.fechaHoraRespuesta}}</div>
-    <div><span>Nombre del Encargado: </span>{{respuesta.nombre}}</div>
-    <div><span>Apellidos del Encargado: </span>{{respuesta.apellidos}}</div>
-    <button class="btn btn-primary" (click)="atras()">Volver</button>
-</div>
+<nav>
+  <ul>
+    <li><a href="/main">Mis Consultas</a></li>
+    <li><a href="/agregar">Agregar Consulta</a></li>
+    <li><button mat-icon-button aria-label="Cerrar Sesión">
+      <mat-icon (click)="salir()" style="color: white;">exit_to_app</mat-icon>
+    </button></li>
+  </ul>
+</nav>
+<br>
+<div class="main-div" *ngIf="boleta">
+    <mat-card class="example-card">
+        <mat-card-title>Consulta de la boleta # {{boleta.idBoleta}}</mat-card-title><br>
+        <mat-card-content>
+            <div><span>Fecha y Hora: </span>{{boleta.fechaHora}}</div>
+            <div><span>Asunto Detallado: </span>{{boleta.asuntoDetallado}}</div>
+            <div><span>Descripción: </span>{{boleta.descripcion}}</div>
+            <div><span>Estado: </span>{{boleta.estado}}</div>
+            <div><span>Nombre: </span>{{boleta.Nombre}}</div>
+            <div><span>Apellidos: </span>{{boleta.apellidos}}</div>
+            <div><span>Correo: </span>{{boleta.correo}}</div>
+            <br />
+            <h2> Respuesta de la boleta # {{boleta.idBoleta}}</h2>
+            <div><span>Respuesta: </span>{{respuesta.detalleRespuesta}}</div>
+            <div><span>Fecha y Hora: </span>{{respuesta.fechaHoraRespuesta}}</div>
+            <div><span>Nombre del Encargado: </span>{{respuesta.nombre}}</div>
+            <div><span>Apellidos del Encargado: </span>{{respuesta.apellidos}}</div>
+            <br />
+            <button class="btn btn-primary" (click)="atras()">Volver</button>
+        </mat-card-content>
+      </mat-card>
+    </div>
+

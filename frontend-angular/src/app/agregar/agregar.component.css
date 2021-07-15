@@ -1,16 +1,31 @@
-table {
-  width: 100%;
-}
-
-#close-session {
-  text-align: right;
-  margin-right: 25px;
-}
-
-#line h1 {
-  text-align: center;
-}
-
+textarea {
+    resize: none;
+    height: 150px;
+  }
+  
+  #btn-margin {
+    margin-left: 50px;
+  }
+  
+  .main-div{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .example-card {
+    background: lightsteelblue;
+    width: 500px;
+    text-align: center;
+  }
+  
+  .margin {
+    width: 350px;
+    margin-left: 50px;
+  }
+  
+   
 /* Menu */
 nav {
   margin:0 auto;

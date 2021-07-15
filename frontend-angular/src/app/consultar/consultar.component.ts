@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild} from '@angular/core';
 import { RestService } from '../rest.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import{ GlobalConstants } from '../globals';
 
 @Component({
   selector: 'app-consultar',
@@ -20,7 +19,7 @@ export class ConsultarComponent implements OnInit {
   }
 
   obtenerBoleta(){
-    this.rest.getBoletaById(GlobalConstants.idBoletaActual).subscribe((data: {}) => {
+    this.rest.getBoletaById(localStorage.getItem("idBoleta")).subscribe((data: {}) => {
       this.boleta = data[0][0][0];
       let idRespuestaObtenido = this.boleta.idRespuesta;
       if(idRespuestaObtenido != null){
@@ -38,6 +37,14 @@ export class ConsultarComponent implements OnInit {
   atras(){
     this.router.navigate(['/main']);
   } 
+
+  salir(){
+    localStorage.removeItem("idUsuario");
+    localStorage.removeItem("permiso");
+    localStorage.removeItem("ipUsuario");
+    localStorage.removeItem("idBoleta");
+    this.router.navigate(['/login']);
+  }
 }
 
 

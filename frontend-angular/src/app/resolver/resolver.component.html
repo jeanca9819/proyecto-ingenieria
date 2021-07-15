@@ -1,42 +1,70 @@
-<div *ngIf="boleta">
-    <h2>Resolver Consulta # {{boleta.idBoleta}} </h2>
-    <div class="row"  *ngIf="showMsgError">
-      <p class="alert alert-danger">
-        <strong>Error: </strong>La respuesta no se registró correctamente.
-      </p>
-  </div>
-  <div class="row"  *ngIf="showMsgRegistration">
-    <p class="alert alert-success">
-      <strong>Excelente: </strong>Se registró correctamente su respuesta.
-    </p>
-  </div>
-    <div>
-      <label>Fecha y Hora:
-        <input [disabled]="true" [(ngModel)]="boleta.fechaHora"/>
-      </label><br>
-      <label>Asunto Detallado:
-        <input [disabled]="true" [(ngModel)]="boleta.asuntoDetallado"/>
-      </label><br>
-      <label>Descripción:
-        <input [disabled]="true" [(ngModel)]="boleta.descripcion"/>
-      </label><br>
-      <label>Estado:
-        <input [disabled]="true" [(ngModel)]="boleta.estado"/>
-      </label><br>
-      <label>Nombre:
-        <input [disabled]="true" [(ngModel)]="boleta.Nombre"/>
-      </label><br>
-      <label>Apellidos:
-        <input [disabled]="true" [(ngModel)]="boleta.apellidos"/>
-      </label><br>
-      <label>Correo:
-        <input [disabled]="true" [(ngModel)]="boleta.correo"/>
-      </label><br>
-      <label>Respuesta:
-        <input placeholder="Respuesta" id="respuesta"/>
-      </label><br>
+<nav>
+  <ul>
+    <li><a href="/administrador">Consultas</a></li>
+    <li><a href="#">Reportes</a>
+      <ul>
+        <li><a href="#">Fechas</a></li>
+        <li><a href="#">Departamento</a></li>
+        <li><a href="#">Usuario</a></li>
+        <li><a href="#">Clasificador</a></li>
+        <li><a href="#">Tema</a></li>
+        <li><a href="#">Departamento</a></li>
+        <li><a href="#">Mensual</a></li>
+
+      </ul>
+    </li>
+    <li><a href="#">Cubo</a></li>
+    <li><button mat-icon-button aria-label="Cerrar Sesión">
+      <mat-icon (click)="salir()" style="color: white;">exit_to_app</mat-icon>
+    </button></li>
+  </ul>
+</nav>
+<br>
+<div class="main-div" *ngIf="boleta">
+    <mat-card class="example-card">
+        <mat-card-title>Resolver Consulta # {{boleta.idBoleta}}</mat-card-title><br>
+        <div class="row"  *ngIf="showMsgError">
+          <p class="alert alert-danger">
+            <strong>Error: </strong>La respuesta no se registró correctamente.
+          </p>
+        </div>
+        <div class="row"  *ngIf="showMsgRegistration">
+          <p class="alert alert-success">
+            <strong>Excelente: </strong>Se registró correctamente su respuesta.
+          </p>
+        </div>
+        <mat-card-content>
+          <div>
+            <label>Fecha y Hora:
+              <br /><input [disabled]="true" [(ngModel)]="boleta.fechaHora"/>
+            </label><br>
+            <label>Asunto Detallado:
+              <br /><textarea class="form-control" [disabled]="true" [(ngModel)]="boleta.asuntoDetallado"></textarea>
+            </label><br>
+            <label>Descripción:
+              <br /><input [disabled]="true" [(ngModel)]="boleta.descripcion"/>
+            </label><br>
+            <label>Estado:
+              <br /><input [disabled]="true" [(ngModel)]="boleta.estado"/>
+            </label><br>
+            <label>Nombre:
+              <br /><input [disabled]="true" [(ngModel)]="boleta.Nombre"/>
+            </label><br>
+            <label>Apellidos:
+              <br /><input [disabled]="true" [(ngModel)]="boleta.apellidos"/>
+            </label><br>
+            <label>Correo:
+              <br /><input [disabled]="true" [(ngModel)]="boleta.correo"/>
+            </label><br>
+            <label>Respuesta:
+              <textarea class="form-control" placeholder="Respuesta" autocomplete="off" id="respuesta"></textarea>
+            </label><br>
+          </div>
+          <br />
+          <button class="btn btn-primary" (click)="responder()">Resolver</button> 
+          <br />
+          <br />
+          <button class="btn btn-secondary" (click)="atras()">Volver</button>
+        </mat-card-content>
+      </mat-card>
     </div>
-    <button class="btn btn-primary" (click)="responder()">Resolver</button> 
-    <br />
-    <button class="btn btn-secondary" (click)="atras()">Volver</button>
-  </div>
