@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { RestService } from '../rest.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { VisitorsService } from '../visitors.service';
-
 
 @Component({
   selector: 'app-agregar',
@@ -16,6 +15,9 @@ export class AgregarComponent implements OnInit {
   clasificadores:any=[];
   showMsgError: boolean = false;
   showMsgRegistration: boolean = false;
+
+  @ViewChild('fileInput', { static: false}) fileInput: ElementRef;
+
   constructor(public rest:RestService, private fb: FormBuilder, private route: ActivatedRoute,
     private router: Router, private visitorsService:VisitorsService) {
 
@@ -28,7 +30,8 @@ export class AgregarComponent implements OnInit {
         ipComputadora: '',
         clasificador: new FormControl('', [
           Validators.required
-        ])
+        ]),
+        rutaArchivo: ''
     })
 
   }
@@ -45,7 +48,7 @@ export class AgregarComponent implements OnInit {
     this.clasificadores=data;
     });
   }
-
+  
   add() {
     
     if (!this.queryForm.valid) {
@@ -56,6 +59,18 @@ export class AgregarComponent implements OnInit {
     var idUsuario = localStorage.getItem("idUsuario");
     this.queryForm.controls['usuarioId'].setValue(idUsuario);
     this.queryForm.controls['ipComputadora'].setValue(ipAddress);
+
+    const fileBlob = this.fileInput.nativeElement.files[0];
+    const file = new FormData();
+    file.set('file', fileBlob);
+
+    this.rest.enviarEvidencia(file).subscribe((result) => {
+      console.log(result);
+    }, (err) => {
+      console.log(err);
+    });
+
+    this.queryForm.controls['rutaArchivo'].setValue('./assets/'+fileBlob.name);
 
     this.rest.addBoleta(this.queryForm.value).subscribe((result) => {
       this.showMsgError= false;

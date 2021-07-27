@@ -3,6 +3,7 @@ import { RestService } from '../rest.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { VisitorsService } from '../visitors.service';
+import { saveAs } from "file-saver";
 
 @Component({
   selector: 'app-resolver',
@@ -54,6 +55,14 @@ export class ResolverComponent implements OnInit {
       this.showMsgRegistration= false;
     });
   }
+
+  download(){
+    let filename = "Proyecto IF-7100.pdf";
+    this.rest.download(filename).subscribe((data)=>{
+        console.log(data);
+        saveAs(data, filename);
+    });
+}
 
   atras(){
     this.router.navigate(['/administrador']);

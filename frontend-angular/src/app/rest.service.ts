@@ -60,10 +60,24 @@ export class RestService {
       tap((boleta) => console.log('added boleta')));
   }
 
+  enviarEvidencia(file): Observable<any> {
+    return this.http.post<any>(endpoint + '/', file).pipe(
+      tap((file) => console.log('added Evidencia')));
+  }
+
   addRespuesta(respuesta): Observable<any> {
     return this.http.post<any>(endpoint + '/ingresarRespuesta', respuesta).pipe(
       tap((respuesta) => console.log('Respuesta agregada')));
   }
+
+  download(filename){
+    const fileObj = {
+        filename : filename
+    };
+    return this.http.post( endpoint + '/download', fileObj, {
+        responseType : 'blob',
+    });
+}
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {

@@ -46,7 +46,15 @@
                 El clasificador es requerido.
               </span>
           </div>
-      
+
+          <div class="form-group row margin"> 
+            <label>Evidencia: </label>
+            <div class="input-icono"> 
+              <input #fileInput type="file">
+            </div>
+
+          </div>
+
               <div class="form-group">
                 <button type="submit" mat-raised-button color="accent">Agregar Consulta</button>
                 <button class="btn btn-primary" id="btn-margin" (click)="atras()">Volver</button>

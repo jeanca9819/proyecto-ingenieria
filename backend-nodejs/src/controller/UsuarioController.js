@@ -1,4 +1,5 @@
 const db_conection  = require('../config/database.js');
+const path = require('path');
 
 exports.login = (req, res) => {
 
@@ -128,7 +129,7 @@ exports.respuestaById = (req, res) => {
 
 exports.ingresarBoleta = (req, res) => {
 
-    const { usuarioId, asuntoDetallado, ipComputadora, clasificador } = req.body;
+    const { usuarioId, asuntoDetallado, ipComputadora, clasificador, rutaArchivo } = req.body;
 
     db_conection.sql.connect(db_conection.config, function (err) {
 
@@ -138,7 +139,7 @@ exports.ingresarBoleta = (req, res) => {
                         
             db_conection.sql.query(
                 
-                "exec [dbo].[ingresarBoleta] '" + usuarioId + "','" + asuntoDetallado + "','" + ipComputadora + "','" + clasificador + "';", function (err, result) {
+                "exec [dbo].[ingresarBoleta] '" + usuarioId + "','" + asuntoDetallado + "','" + ipComputadora + "','" + clasificador + "','" + rutaArchivo + "';", function (err, result) {
                 
                 if (err) {  
                     console.log(err);
@@ -149,6 +150,13 @@ exports.ingresarBoleta = (req, res) => {
         }
   
     });
+};
+
+exports.descargarArchivo = (req, res) => {
+
+    filepath = path.join(__dirname,'/../assets') + '/' + req.body.filename;
+    
+    res.sendFile(filepath);
 };
 
 exports.ingresarRespuesta = (req, res) => {
