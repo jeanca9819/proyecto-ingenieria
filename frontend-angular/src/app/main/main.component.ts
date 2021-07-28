@@ -21,6 +21,7 @@ export class MainComponent implements OnInit {
   constructor(public rest:RestService, private route: ActivatedRoute,
     private router: Router) {}
 ngOnInit() {
+  localStorage.removeItem("rutaArchivoRespuesta");
   this.getBoletas();
 }
 
@@ -44,6 +45,7 @@ ngOnInit() {
     localStorage.removeItem("permiso");
     localStorage.removeItem("ipUsuario");
     localStorage.removeItem("idBoleta");
+    localStorage.removeItem("rutaArchivoRespuesta");
     this.router.navigate(['/login']);
   }
 

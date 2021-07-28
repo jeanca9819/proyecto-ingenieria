@@ -1,5 +1,11 @@
   .main-div{
-    height: 100vh;
+    height: 50vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .main-div2{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -16,7 +22,13 @@
     margin-left: 50px;
   }
 
-   
+  .margin-button {
+    height: 10vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
 /* Menu */
 nav {
   margin:0 auto;

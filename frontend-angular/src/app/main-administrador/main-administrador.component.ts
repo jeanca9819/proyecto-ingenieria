@@ -26,6 +26,7 @@ export class MainAdministradorComponent implements OnInit {
 
 }
 ngOnInit() {
+  localStorage.removeItem("rutaArchivoBoleta");
   this.getBoletas();
 }
 
@@ -56,6 +57,7 @@ ngOnInit() {
     localStorage.removeItem("permiso");
     localStorage.removeItem("ipUsuario");
     localStorage.removeItem("idBoleta");
+    localStorage.removeItem("rutaArchivoBoleta");
     this.router.navigate(['/login']);
   }
 }

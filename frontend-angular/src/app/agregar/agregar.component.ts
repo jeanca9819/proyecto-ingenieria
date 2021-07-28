@@ -70,7 +70,7 @@ export class AgregarComponent implements OnInit {
       console.log(err);
     });
 
-    this.queryForm.controls['rutaArchivo'].setValue('./assets/'+fileBlob.name);
+    this.queryForm.controls['rutaArchivo'].setValue(fileBlob.name);
 
     this.rest.addBoleta(this.queryForm.value).subscribe((result) => {
       this.showMsgError= false;
@@ -80,6 +80,7 @@ export class AgregarComponent implements OnInit {
       this.showMsgRegistration= false;
     });
   }
+  
 
   atras(){
     this.router.navigate(['/main']);

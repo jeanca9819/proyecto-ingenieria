@@ -8,7 +8,20 @@
   }
   
   .main-div{
-    height: 120vh;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .main-div2{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .margin-button {
+    height: 10vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -79,4 +92,28 @@ nav ul li ul li {
 
 nav ul li:hover ul {
   display:block;
+}
+
+/**/
+
+.input-icono {
+  background-image: url(src\assets\subir.png);
+  background-repeat: no-repeat;
+  background-position: 4px center;
+  background-size: 25px;
+  display: flex;
+  align-items: center;
+  width: 350px;
+  padding-left: 40px;
+  height: 40px;
+  border: 1px solid rgba(9, 113, 163, 1);
+  border-radius: 3px;
+}
+.input-icono input {
+  width: 100%;
+  font-size: 0.9em;
+  border: none;
+}
+.input-icono input:focus {
+  outline: none;
 }

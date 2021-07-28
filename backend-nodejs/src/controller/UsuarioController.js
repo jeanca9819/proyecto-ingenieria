@@ -117,7 +117,7 @@ exports.respuestaById = (req, res) => {
                 "exec [dbo].[obtenerRespuesta] '" + idRespuesta + "';", function (err, result) {
                 
                 if (err) {
-                    console.log(err);
+                    res.json("No existe respuesta");
                 } else {
                     res.json([[result.recordsets[0]]]);
                 }
@@ -153,15 +153,16 @@ exports.ingresarBoleta = (req, res) => {
 };
 
 exports.descargarArchivo = (req, res) => {
-
-    filepath = path.join(__dirname,'/../assets') + '/' + req.body.filename;
     
-    res.sendFile(filepath);
+    if (req.body.filename != null) {
+        filepath = path.join(__dirname,'/../assets') + '/' + req.body.filename;
+        res.sendFile(filepath);
+    }
 };
 
 exports.ingresarRespuesta = (req, res) => {
 
-    const { idBoleta, idUsuarioRespuesta, ipComputadora, detalleRespuesta } = req.body;
+    const { idBoleta, idUsuarioRespuesta, ipComputadora, detalleRespuesta, rutaArchivo } = req.body;
 
     db_conection.sql.connect(db_conection.config, function (err) {
 
@@ -171,7 +172,7 @@ exports.ingresarRespuesta = (req, res) => {
                         
             db_conection.sql.query(
                 
-                "exec [dbo].[insertarRespuesta] '" + detalleRespuesta + "','" + idUsuarioRespuesta + "','" + ipComputadora + "','" + idBoleta + "';", function (err, result) {
+                "exec [dbo].[insertarRespuesta] '" + detalleRespuesta + "','" + idUsuarioRespuesta + "','" + ipComputadora + "','" + idBoleta + "','" + rutaArchivo + "';", function (err, result) {
                 
                 if (err) {  
                     console.log(err);
