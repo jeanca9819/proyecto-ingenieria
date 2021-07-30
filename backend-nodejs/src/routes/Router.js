@@ -8,11 +8,15 @@ router.get('/login/:correo/:contrasenna/', controller.login);
 
 router.get('/clasificadores/', controller.clasificadores);
 
+router.get('/departamentos/', controller.departamentos);
+
 router.post('/ingresarBoleta',controller.ingresarBoleta);
 
 router.post('/download', controller.descargarArchivo);
 
 router.get('/listarBoletas/:idUsuario/:permiso/', controller.listarBoletas);
+
+router.get('/listarMensual/:departamentoId/', controller.listarMensual);
 
 router.get('/boletaById/:idBoleta/', controller.boletaById);
 

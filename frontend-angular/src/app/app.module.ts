@@ -30,6 +30,8 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatIconModule} from '@angular/material/icon';
 import {MatFormFieldModule} from '@angular/material/form-field';
 
+import { ChartsModule } from 'ng2-charts';
+
 const appRoutes: Routes = [
   {
     path: 'main',
@@ -118,7 +120,8 @@ const appRoutes: Routes = [
     MatButtonModule,
     MatDividerModule,
     MatIconModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    ChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

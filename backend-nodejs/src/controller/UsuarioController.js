@@ -55,6 +55,31 @@ exports.listarBoletas = (req, res) => {
     });
 };
 
+exports.listarMensual = (req, res) => {
+
+    const { departamentoId } = req.params;
+
+    db_conection.sql.connect(db_conection.config, function (err) {
+
+        if (err) {
+            console.log(err);
+        }else{
+                        
+            db_conection.sql.query(
+                
+                "exec [dbo].[mensualPorDepartamento] '" + departamentoId +"';", function (err, result) {
+                
+                if (err) {
+                    console.log(err);
+                } else {
+                    res.json([[result.recordsets[0]]]);
+                }
+            });
+        }
+  
+    });
+};
+
 exports.clasificadores = (req, res) => {
     db_conection.sql.connect(db_conection.config, function (err) {    
         if (err) {
@@ -64,6 +89,28 @@ exports.clasificadores = (req, res) => {
             db_conection.sql.query(
                 
                 "exec [dbo].[sp_clasificador]", function (err, result) {
+                
+                if (err) {
+                    console.log(err);
+                } else {                            
+                     res.json(result.recordset);
+                   
+                }
+            });
+        }
+  
+    });
+};
+
+exports.departamentos = (req, res) => {
+    db_conection.sql.connect(db_conection.config, function (err) {    
+        if (err) {
+            console.log(err);
+        }else{
+                        
+            db_conection.sql.query(
+                
+                "exec [dbo].[obtenerDepartamentos]", function (err, result) {
                 
                 if (err) {
                     console.log(err);
