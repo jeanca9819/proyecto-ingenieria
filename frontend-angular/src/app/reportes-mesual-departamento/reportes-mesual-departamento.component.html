@@ -15,17 +15,19 @@
     </ul>
   </nav>
   <br>
+
   <div style="display: inline-flex; margin: 0 auto;">
     <button mat-raised-button style="background-color: green; color: white; margin: 20px;" (click)="exportarExcel()"> Excel </button>
     <button  mat-raised-button style="color: white; margin: 20px;" color="warn" (click)="exportarPDF()"> PDF </button>
     <label style="margin: 25px;">Filtrar por: </label>
     <mat-form-field appearance="fill">
-      <select class="form-control"  style="width: auto;" matNativeControl required>
-        <option value="5">Mes - Departamento</option>
-        <option value="6">Usuario - Clasificación</option>
+      <select class="form-control" matNativeControl required>
+        <option value="1">Mes</option>
+        <option value="2">Departamento</option>
+        <option value="3">Usuario</option>
+        <option value="4">Tema interés</option>
       </select>
     </mat-form-field>
-    <input style="margin: 20px; width: 400px;" class="form-control" type="text" formControlName="filtrar1" placeholder="Parámetro 1" autocomplete="off">
-    <input style="margin: 20px; width: 400px;" class="form-control" type="text" formControlName="filtrar2" placeholder="Parámetro 2" autocomplete="off">
+    <input style="margin: 20px; width: 400px;" class="form-control" type="text" formControlName="filtrar" placeholder="Filtrar" autocomplete="off">
     <button style="margin: 20px; height: 33px;" type="button" class="btn btn-info">Filtrar</button>
   </div>

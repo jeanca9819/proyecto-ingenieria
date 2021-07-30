@@ -18,6 +18,7 @@ import { AgregarComponent } from './agregar/agregar.component';
 import { ReportesComponent } from './reportes/reportes.component';
 import { ReportesAuditoriasComponent } from './reportes-auditorias/reportes-auditorias.component';
 import { ReportesFechasComponent } from './reportes-fechas/reportes-fechas.component';
+import { ReportesMesualDepartamentoComponent } from './reportes-mesual-departamento/reportes-mesual-departamento.component';
 
 //Angular Material
 import {MatCardModule} from '@angular/material/card';
@@ -28,8 +29,6 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatIconModule} from '@angular/material/icon';
 import {MatFormFieldModule} from '@angular/material/form-field';
-
-
 
 const appRoutes: Routes = [
   {
@@ -73,6 +72,11 @@ const appRoutes: Routes = [
     data: { title: 'Reportes Fechas' }
   },
   {
+    path: 'reportes-mensual-departamento',
+    component: ReportesMesualDepartamentoComponent,
+    data: { title: 'Reportes Mensuales' }
+  },
+  {
     path: 'login',
     component: LoginComponent,
     data: { title: 'Login' }
@@ -96,7 +100,8 @@ const appRoutes: Routes = [
     AgregarComponent,
     ReportesComponent,
     ReportesAuditoriasComponent,
-    ReportesFechasComponent
+    ReportesFechasComponent,
+    ReportesMesualDepartamentoComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
