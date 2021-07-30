@@ -33,6 +33,13 @@ export class RestService {
     );
   }
 
+  getMensual(id): Observable<any> {
+    return this.http.get(endpoint + '/listarMensual/' + id + '/').pipe(
+      map(this.extractData),
+      catchError(this.handleError<any>('Reportes'))
+    );
+  }
+
 
   getBoletaById(id): Observable<any> {
     return this.http.get(endpoint + '/boletaById/' + id).pipe(
@@ -52,6 +59,27 @@ export class RestService {
     return this.http.get(endpoint + '/clasificadores/').pipe(
       map(this.extractData),
       catchError(this.handleError<any>('lista Clasificadores'))
+    );
+  }
+
+  getDepartamentos(): Observable<any> {
+    return this.http.get(endpoint + '/departamentos/').pipe(
+      map(this.extractData),
+      catchError(this.handleError<any>('lista Departamentos'))
+    );
+  }
+
+  getTodosReportes(): Observable<any> {
+    return this.http.get(endpoint + '/todosReportes/').pipe(
+      map(this.extractData),
+      catchError(this.handleError<any>('lista Reportes'))
+    );
+  }
+
+  getReportesParametro(identificador, filtro1, filtro2): Observable<any> {
+    return this.http.get(endpoint + '/reportesParametro/' + identificador + '/' + filtro1+ '/' + filtro2).pipe(
+      map(this.extractData),
+      catchError(this.handleError<any>('lista Reportes'))
     );
   }
 

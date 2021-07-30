@@ -7,6 +7,7 @@ import {HttpClientModule } from '@angular/common/http';
 import {RouterModule, Routes } from '@angular/router'; 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ChartsModule } from 'ng2-charts';
 
 //Componentes
 import { LoginComponent } from './login/login.component';
@@ -118,7 +119,8 @@ const appRoutes: Routes = [
     MatButtonModule,
     MatDividerModule,
     MatIconModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    ChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

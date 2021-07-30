@@ -48,7 +48,7 @@ ngOnInit() {
     const data: Blob = new Blob([excelBuffer],{
       type: '.xlsx'
     });
-    FileSaver.saveAs(data, 'Datos.xlsx');
+    FileSaver.saveAs(data, 'Mis Consultas.xlsx');
 
   }
 
@@ -67,7 +67,7 @@ ngOnInit() {
       ]);
     });
     autoTable(doc, {columns: col, body: rows});
-    doc.save('Datos.pdf');
+    doc.save('Mis Consultas.pdf');
   }
 
   detalle(idBoleta:any){

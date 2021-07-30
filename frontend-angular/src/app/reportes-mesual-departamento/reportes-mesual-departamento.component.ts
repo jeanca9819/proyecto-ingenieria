@@ -1,13 +1,14 @@
 import { Component, OnInit, ViewChild} from '@angular/core';
-import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import { RestService } from '../rest.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 
 import * as XLSX from 'xlsx';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import * as FileSaver from 'file-saver';
+import { Chart } from 'chart.js';
 
 @Component({
   selector: 'app-reportes-mesual-departamento',
@@ -16,19 +17,38 @@ import * as FileSaver from 'file-saver';
 })
 export class ReportesMesualDepartamentoComponent implements OnInit {
 
-  displayedColumns: string[] = ['idBoleta', 'fechaHora', 'asuntoDetallado', 'descripcion', 'estado', 'accion'];
+  displayedColumns: string[] = ['Mes', 'Consultas', 'Respuestas'];
   dataSource = new MatTableDataSource<any>();
   element:any=[];
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  departamentos:any=[];
+  queryForm: FormGroup;
+  chart:any = [];
 
-  constructor(public rest:RestService, private route: ActivatedRoute,
-    private router: Router) {}
+  constructor(public rest:RestService, private fb: FormBuilder, private route: ActivatedRoute,
+    private router: Router) {
+
+      this.queryForm = this.fb.group({
+        departamentoId: new FormControl('', [
+          Validators.required
+        ]),
+    })
+
+    }
 
   ngOnInit(): void {
     localStorage.removeItem("rutaArchivoBoleta");
     localStorage.removeItem("rutaArchivoRespuesta");
+    localStorage.removeItem("TotalParcialGrafico");
+    localStorage.removeItem("TotalGeneralGrafico");
+    this.getDepartamentos();
   }
 
+  getDepartamentos(){
+    this.departamentos=[];
+    this.rest.getDepartamentos().subscribe((data:{})=>{
+    this.departamentos=data;
+    });
+  }
 
   exportarExcel(){
 
@@ -38,27 +58,120 @@ export class ReportesMesualDepartamentoComponent implements OnInit {
     const data: Blob = new Blob([excelBuffer],{
       type: '.xlsx'
     });
-    FileSaver.saveAs(data, 'Datos.xlsx');
+    FileSaver.saveAs(data, 'Reportes Mensuales ('+this.departamentos[this.queryForm.value.departamentoId - 1].descripcion+').xlsx');
 
   }
 
   exportarPDF(){
     var doc = new jsPDF('l', 'mm', 'a4');
-    var col = ['Número Boleta', 'Fecha y Hora', 'Asunto Detallado', 'Descripción', 'Estado'];
+    var col = ['Mes', 'Consultas', 'Respuestas'];
     var rows = [];
 
     this.element.forEach(lista => {
       rows.push([
-        lista.idBoleta,
-        lista.fechaHora,
-        lista.asuntoDetallado,
-        lista.descripcion,
-        lista.estado,
+        lista.Mes,
+        lista.Consultas,
+        lista.Respuestas,
       ]);
     });
     autoTable(doc, {columns: col, body: rows});
-    doc.save('Datos.pdf');
+    doc.save('Reportes Mensuales ('+this.departamentos[this.queryForm.value.departamentoId - 1].descripcion+').pdf');
   }
+
+  filtrar(){
+    if (!this.queryForm.valid) {
+      return;
+    }
+
+    this.rest.getMensual(this.queryForm.value.departamentoId).subscribe((data: {}) => {
+      this.element = data[0][0];
+      this.dataSource.data=(this.element);
+
+      let i: number = 0;
+      var consultasGrafico = [];
+      var respuestasGrafico = [];
+      var mesesGrafico = [];
+      while (i < 12){
+        consultasGrafico.push(this.element[i].Consultas);
+        respuestasGrafico.push(this.element[i].Respuestas);
+        mesesGrafico.push(this.element[i].Mes);
+        i = i + 1;
+      }  
+        
+      mesesGrafico.forEach(result => {
+        this.chart = new Chart('canvas', {
+          type: 'bar',
+          data: {
+            labels: mesesGrafico,
+            datasets: [
+              {
+                label: 'Consultas',
+                data: consultasGrafico,
+                backgroundColor: [
+                  '#4BCAF6',
+                  '#4BCAF6',
+                  '#4BCAF6',
+                  '#4BCAF6',
+                  '#4BCAF6',
+                  '#4BCAF6',
+                  '#4BCAF6',
+                  '#4BCAF6',
+                  '#4BCAF6',
+                  '#4BCAF6',
+                  '#4BCAF6',
+                  '#4BCAF6'
+                ],
+                fill: false
+              },
+              {
+                label: 'Respuestas',
+                data: respuestasGrafico,
+                backgroundColor: [
+                  '#4BF65A',
+                  '#4BF65A',
+                  '#4BF65A',
+                  '#4BF65A',
+                  '#4BF65A',
+                  '#4BF65A',
+                  '#4BF65A',
+                  '#4BF65A',
+                  '#4BF65A',
+                  '#4BF65A',
+                  '#4BF65A',
+                  '#4BF65A'
+                ],
+                fill: false
+              }
+            ]
+          },
+          options: {
+            legend: {
+              display: true
+            },
+            scales: {
+              xAxes: [
+                {
+                  display: true
+                }
+              ],
+              yAxes: [
+                {
+                  display: true
+                }
+              ]
+            }
+          }
+        });
+
+
+      });
+
+
+
+    });
+  }
+
+  
 
   salir(){
     localStorage.removeItem("idUsuario");
@@ -67,6 +180,8 @@ export class ReportesMesualDepartamentoComponent implements OnInit {
     localStorage.removeItem("idBoleta");
     localStorage.removeItem("rutaArchivoBoleta");
     localStorage.removeItem("rutaArchivoRespuesta");
+    localStorage.removeItem("TotalParcialGrafico");
+    localStorage.removeItem("TotalGeneralGrafico");
     this.router.navigate(['/login']);
   }
 
