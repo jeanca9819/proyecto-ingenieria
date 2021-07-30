@@ -10,6 +10,10 @@ router.get('/clasificadores/', controller.clasificadores);
 
 router.get('/departamentos/', controller.departamentos);
 
+router.get('/todosReportes/', controller.todosReportes);
+
+router.get('/reportesParametro/:identificador/:filtro1/:filtro2/', controller.reportesParametro);
+
 router.post('/ingresarBoleta',controller.ingresarBoleta);
 
 router.post('/download', controller.descargarArchivo);

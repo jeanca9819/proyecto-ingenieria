@@ -124,6 +124,57 @@ exports.departamentos = (req, res) => {
     });
 };
 
+exports.todosReportes = (req, res) => {
+    db_conection.sql.connect(db_conection.config, function (err) {    
+        if (err) {
+            console.log(err);
+        }else{
+                        
+            db_conection.sql.query(
+                
+                "exec [dbo].[obtenerTodosReportes]", function (err, result) {
+                
+                if (err) {
+                    console.log(err);
+                } else {                            
+                     res.json(result.recordset);
+                   
+                }
+            });
+        }
+  
+    });
+};
+
+exports.reportesParametro = (req, res) => {
+
+    const { identificador } = req.params;
+
+    const { filtro1 } = req.params;
+
+    const { filtro2 } = req.params;
+
+    db_conection.sql.connect(db_conection.config, function (err) {
+
+        if (err) {
+            console.log(err);
+        }else{
+                        
+            db_conection.sql.query(
+                
+                "exec [dbo].[obtenerReportes] '" + identificador+ "','" + filtro1 + "','" + filtro2 + "';", function (err, result) {
+                
+                if (err) {
+                    console.log(err);
+                } else {
+                    res.json(result.recordset);
+                }
+            });
+        }
+  
+    });
+};
+
 exports.boletaById = (req, res) => {
 
     const { idBoleta } = req.params;

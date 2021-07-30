@@ -69,6 +69,20 @@ export class RestService {
     );
   }
 
+  getTodosReportes(): Observable<any> {
+    return this.http.get(endpoint + '/todosReportes/').pipe(
+      map(this.extractData),
+      catchError(this.handleError<any>('lista Reportes'))
+    );
+  }
+
+  getReportesParametro(identificador, filtro1, filtro2): Observable<any> {
+    return this.http.get(endpoint + '/reportesParametro/' + identificador + '/' + filtro1+ '/' + filtro2).pipe(
+      map(this.extractData),
+      catchError(this.handleError<any>('lista Reportes'))
+    );
+  }
+
   addBoleta(boleta): Observable<any> {
     return this.http.post<any>(endpoint + '/ingresarBoleta', boleta).pipe(
       tap((boleta) => console.log('added boleta')));

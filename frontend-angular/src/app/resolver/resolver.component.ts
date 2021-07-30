@@ -42,6 +42,10 @@ export class ResolverComponent implements OnInit {
     
 
   ngOnInit() {
+    localStorage.removeItem("rutaArchivoBoleta");
+    localStorage.removeItem("rutaArchivoRespuesta");
+    localStorage.removeItem("TotalParcialGrafico");
+    localStorage.removeItem("TotalGeneralGrafico");
     this.visitorsService.getIpAddress().subscribe(res => {
       localStorage.setItem("ipUsuario", res['ip']);
     });
@@ -124,6 +128,8 @@ export class ResolverComponent implements OnInit {
     localStorage.removeItem("idBoleta");
     localStorage.removeItem("rutaArchivoBoleta");
     localStorage.removeItem("rutaArchivoRespuesta");
+    localStorage.removeItem("TotalParcialGrafico");
+    localStorage.removeItem("TotalGeneralGrafico");
     this.router.navigate(['/login']);
   }
 }

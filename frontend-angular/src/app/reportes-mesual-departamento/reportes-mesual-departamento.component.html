@@ -1,7 +1,7 @@
 <nav>
     <ul>
       <li><a href="/administrador">Consultas</a></li>
-      <li><a href="#">Reportes</a>
+      <li><a>Reportes</a>
         <ul>
           <li><a href="/reportes">Detallado</a></li>
           <li><a href="/reportes-auditorias">Auditorías</a></li>
@@ -68,7 +68,7 @@
         </div>
 
         <div class="col-7">
-          <div class="chart-wrapper">
+          <div class="chart-wrapper" *ngIf="chart"> 
             <canvas id="canvas">
               {{chart}}
             </canvas>

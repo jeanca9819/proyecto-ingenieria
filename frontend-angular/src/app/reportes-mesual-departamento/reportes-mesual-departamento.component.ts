@@ -9,7 +9,6 @@ import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import * as FileSaver from 'file-saver';
 import { Chart } from 'chart.js';
-//import { ChartDataSets } from 'chart.js';
 
 @Component({
   selector: 'app-reportes-mesual-departamento',
@@ -25,22 +24,6 @@ export class ReportesMesualDepartamentoComponent implements OnInit {
   queryForm: FormGroup;
   chart:any = [];
 
-/*
-  lineChartData: ChartDataSets [] = [
-    {data: [], label: 'Consultas'},
-    {data: [], label: 'Respuestas'},
-  ];
-  lineChartLabels: Label [] = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-  lineChartOptions = { responsive: true, };
-  lineChartColors: Color[] = [
-    {
-      borderColor: 'black',
-      backgroundColor: 'rgb(190, 176, 222)',
-    },
-  ];
-  lineChartLegend = true;
-  lineChartType = 'bar';
-*/
   constructor(public rest:RestService, private fb: FormBuilder, private route: ActivatedRoute,
     private router: Router) {
 
@@ -55,6 +38,8 @@ export class ReportesMesualDepartamentoComponent implements OnInit {
   ngOnInit(): void {
     localStorage.removeItem("rutaArchivoBoleta");
     localStorage.removeItem("rutaArchivoRespuesta");
+    localStorage.removeItem("TotalParcialGrafico");
+    localStorage.removeItem("TotalGeneralGrafico");
     this.getDepartamentos();
   }
 
@@ -106,13 +91,13 @@ export class ReportesMesualDepartamentoComponent implements OnInit {
       var consultasGrafico = [];
       var respuestasGrafico = [];
       var mesesGrafico = [];
-      var variables = [];
       while (i < 12){
         consultasGrafico.push(this.element[i].Consultas);
         respuestasGrafico.push(this.element[i].Respuestas);
         mesesGrafico.push(this.element[i].Mes);
         i = i + 1;
-      }      
+      }  
+        
       mesesGrafico.forEach(result => {
         this.chart = new Chart('canvas', {
           type: 'bar',
@@ -195,6 +180,8 @@ export class ReportesMesualDepartamentoComponent implements OnInit {
     localStorage.removeItem("idBoleta");
     localStorage.removeItem("rutaArchivoBoleta");
     localStorage.removeItem("rutaArchivoRespuesta");
+    localStorage.removeItem("TotalParcialGrafico");
+    localStorage.removeItem("TotalGeneralGrafico");
     this.router.navigate(['/login']);
   }
 
