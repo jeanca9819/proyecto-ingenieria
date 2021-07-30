@@ -1,0 +1,127 @@
+  #btn-margin {
+    margin-left: 10px;
+  }
+  
+  textarea {
+    resize: none;
+    height: 150px;
+  }
+  
+  .main-div{
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .main-div2{
+    height: 30vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .main-div3{
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .margin-button {
+    height: 10vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .example-card {
+    background: lightsteelblue;
+    width: 500px;
+    text-align: center;
+  }
+  
+  .margin {
+    width: 350px;
+    margin-left: 50px;
+  }
+
+   
+/* Menu */
+nav {
+  margin:0 auto;
+  width:100%;
+  height:auto;
+  display:inline-block;
+  background:#2bbfcc;
+}
+
+nav ul {
+  margin:0;padding:0;
+  list-style-type:none;
+  float: right;
+  margin-right: 100px;
+  display:inline-block;
+}
+
+nav ul li {
+  position:relative;
+  margin:0 20px 0 0;
+  display:inline-block;
+}
+
+li > a:after { content: ' ▼'; } /* Change this in order to change the Dropdown symbol */
+
+li > a:only-child:after { content: ''; }
+
+nav ul li a {
+  padding:20px;
+  display:inline-block;
+  color:white;
+  text-decoration:none;
+}
+
+nav ul li a:hover {
+  opacity:0.5;
+}
+
+nav ul li ul {
+  display:none;
+  position:absolute;
+  left:0;
+  background:#24a3af;
+  float:left;
+}
+
+nav ul li ul li {
+  width:100%;
+  border-bottom:1px solid rgba(255,255,255,.3);
+}
+
+nav ul li:hover ul {
+  display:block;
+}
+
+/**/
+
+.input-icono {
+  background-image: url(src\assets\subir.png);
+  background-repeat: no-repeat;
+  background-position: 4px center;
+  background-size: 25px;
+  display: flex;
+  align-items: center;
+  width: 350px;
+  padding-left: 40px;
+  height: 40px;
+  border: 1px solid rgba(9, 113, 163, 1);
+  border-radius: 3px;
+}
+.input-icono input {
+  width: 100%;
+  font-size: 0.9em;
+  border: none;
+}
+.input-icono input:focus {
+  outline: none;
+}

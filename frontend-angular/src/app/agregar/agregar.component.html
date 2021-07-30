@@ -1,0 +1,70 @@
+<nav>
+  <ul>
+    <li><a href="/main">Mis Consultas</a></li>
+    <li><a href="/agregar">Agregar Consulta</a></li>
+    <li><button mat-icon-button aria-label="Cerrar Sesión">
+      <mat-icon (click)="salir()" style="color: white;">exit_to_app</mat-icon>
+    </button></li>
+  </ul>
+</nav>
+<br>
+<div class="main-div">
+    <mat-card class="example-card">
+        <mat-card-title>Agregar Consulta</mat-card-title><br>
+        <div class="row"  *ngIf="showMsgError">
+            <p class="alert alert-danger">
+              <strong>Error: </strong>No se logró registrar su consulta.
+            </p>
+        </div>
+        <div class="row"  *ngIf="showMsgRegistration">
+            <p class="alert alert-success">
+              <strong>Excelente: </strong>Se registró correctamente.
+            </p>
+        </div>
+        <mat-card-content>
+          <form [formGroup]="queryForm" (ngSubmit)="add()" #formDir="ngForm">
+            <div class="form-group row margin">
+                <div>
+                  <textarea class="form-control" formControlName="asuntoDetallado" placeholder="Asunto Detallado" autocomplete="off"></textarea>
+                </div>
+                <span class="text-danger" *ngIf="queryForm.hasError('required', 'asuntoDetallado') && formDir.submitted">
+               El asunto detallado es requerido.
+                </span>
+                <span class="text-danger" *ngIf="queryForm.hasError('pattern', 'asuntoDetallado') && formDir.submitted">
+                    Se permiten letras y números solamente. Rango de 10 - 200. 
+                  </span>
+            </div>
+      
+            <div class="form-group row margin">
+              <div>
+                <label>Clasificador: </label>
+                <select class="form-control" formControlName="clasificador">
+                <option *ngFor="let item of clasificadores" [ngValue]="item.idClasificador">{{item.descripcion}}</option>
+                  </select>
+              </div>
+              <span class="text-danger" *ngIf="queryForm.hasError('required', 'clasificador') && formDir.submitted">
+                El clasificador es requerido.
+              </span>
+          </div>
+
+          <div class="form-group row margin"> 
+            <label>Evidencia: </label>
+            <p>Adjunte la foto de su cédula si no posee alguna evidencia.</p>
+            <div class="input-icono"> 
+              <input #fileInput type="file">
+            </div>
+            <span class="text-danger" *ngIf="queryForm.hasError('required', 'rutaArchivo') && formDir.submitted">
+              Se requiere un archivo. 
+            </span>
+
+          </div>
+
+              <div class="form-group">
+                <button type="submit" mat-raised-button color="accent">Agregar Consulta</button>
+                <button class="btn btn-primary" id="btn-margin" (click)="atras()">Volver</button>
+              </div>
+        </form>   
+            
+        </mat-card-content>
+      </mat-card>
+    </div>

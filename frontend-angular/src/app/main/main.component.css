@@ -2,29 +2,66 @@ table {
   width: 100%;
 }
 
-#button-row {
-  display: table-cell;
-  width: 490px;
+#close-session {
+  text-align: right;
+  margin-right: 25px;
 }
 
 #line h1 {
   text-align: center;
 }
 
-#close-session {
-  text-align: right;
-  margin-right: 25px;
+/* Menu */
+nav {
+  margin:0 auto;
+  width:100%;
+  height:auto;
+  display:inline-block;
+  background:#2bbfcc;
 }
 
-.margin {
-  margin-left: 50px;
+nav ul {
+  margin:0;padding:0;
+  list-style-type:none;
+  float: right;
+  margin-right: 100px;
+  display:inline-block;
 }
 
-textarea {
-  resize: none;
-  height: 150px;
+nav ul li {
+  position:relative;
+  margin:0 20px 0 0;
+  display:inline-block;
 }
 
-#btn-margin {
-  margin-left: 100px;
+li > a:after { content: ' ▼'; } /* Change this in order to change the Dropdown symbol */
+
+li > a:only-child:after { content: ''; }
+
+nav ul li a {
+  padding:20px;
+  display:inline-block;
+  color:white;
+  text-decoration:none;
+}
+
+nav ul li a:hover {
+  opacity:0.5;
+}
+
+nav ul li ul {
+  display:none;
+  position:absolute;
+  left:0;
+  background:#24a3af;
+  float:left;
+}
+
+nav ul li ul li {
+  width:100%;
+  border-bottom:1px solid rgba(255,255,255,.3);
+}
+
+nav ul li:hover ul {
+  display:block;
 }

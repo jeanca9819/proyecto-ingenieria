@@ -1,10 +1,45 @@
-<div *ngIf="boleta">
-    <h2>Consulta de la boleta # {{boleta.idBoleta}} </h2>
-    <div><span>Fecha y Hora: </span>{{boleta.fechaHora}}</div>
-    <div><span>Asunto Detallado: </span>{{boleta.asuntoDetallado}}</div>
-    <div><span>Descripción: </span>{{boleta.descripcion}}</div>
-    <div><span>Estado: </span>{{boleta.estado}}</div>
-    <div><span>Nombre: </span>{{boleta.Nombre}}</div>
-    <div><span>Apellidos: </span>{{boleta.apellidos}}</div>
-    <div><span>Correo: </span>{{boleta.correo}}</div>
-</div>
+<nav>
+  <ul>
+    <li><a href="/main">Mis Consultas</a></li>
+    <li><a href="/agregar">Agregar Consulta</a></li>
+    <li><button mat-icon-button aria-label="Cerrar Sesión">
+      <mat-icon (click)="salir()" style="color: white;">exit_to_app</mat-icon>
+    </button></li>
+  </ul>
+</nav>
+<br>
+<div class="main-div" *ngIf="boleta">
+    <mat-card class="example-card">
+        <mat-card-title>Consulta de la boleta # {{boleta.idBoleta}}</mat-card-title><br>
+        <mat-card-content>
+            <div><span>Fecha y Hora: </span>{{boleta.fechaHora}}</div>
+            <div><span>Asunto Detallado: </span>{{boleta.asuntoDetallado}}</div>
+            <div><span>Descripción: </span>{{boleta.descripcion}}</div>
+            <div><span>Estado: </span>{{boleta.estado}}</div>
+            <div><span>Nombre: </span>{{boleta.Nombre}}</div>
+            <div><span>Apellidos: </span>{{boleta.apellidos}}</div>
+            <div><span>Correo: </span>{{boleta.correo}}</div>
+            <div><span>Evidencia: </span><button class="btn btn-primary" style="background-color: green; color: white; margin: 20px;" (click)="downloadEvidencia()">Descargar	▼</button></div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="main-div2" *ngIf="respuesta">
+      <mat-card class="example-card">
+          <mat-card-title>Respuesta de la boleta</mat-card-title><br>
+          <mat-card-content>
+              <div><span>Respuesta: </span>{{respuesta.detalleRespuesta}}</div>
+              <div><span>Fecha y Hora: </span>{{respuesta.fechaHoraRespuesta}}</div>
+              <div><span>Nombre del Encargado: </span>{{respuesta.nombre}}</div>
+              <div><span>Apellidos del Encargado: </span>{{respuesta.apellidos}}</div>
+              <div><span>Respuesta - Evidencia: </span><button class="btn btn-primary" style="background-color: green; color: white; margin: 20px;" (click)="download()">Descargar	▼</button></div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div class="margin-button">
+        <button class="btn btn-primary" (click)="atras()">Volver</button>
+      </div>
+        
+        
+
+    

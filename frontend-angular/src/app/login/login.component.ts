@@ -45,18 +45,20 @@ export class LoginComponent implements OnInit {
     
     this.rest.login(this.loginForm.value.email, this.loginForm.value.password).subscribe((result) => { 
 
-      let idUsuario = result.recordset[0].idUsuario;
-      let permiso = result.recordset[0].permiso;
+      localStorage.setItem("idUsuario", result.recordset[0].idUsuario);
+      localStorage.setItem("permiso", result.recordset[0].permiso);
 
-      if(idUsuario != null && permiso == 0){
-        this.router.navigate(['/main'], {queryParams: {  idUsuario, permiso } });
-      }else if(idUsuario != null && permiso == 1){
-        this.router.navigate(['/administrador'], {queryParams: {  idUsuario, permiso } });
+      var idUsuario = localStorage.getItem("idUsuario");
+      var permiso = localStorage.getItem("permiso");
+
+      if(idUsuario != null && permiso == "false"){
+        this.router.navigate(['/main']);
+      }else if(idUsuario != null && permiso  == "true"){
+        this.router.navigate(['/administrador']);
       } else {
         this.showMsgError= true;
         this.showMsgRegistration= false;
       }
-      
     }, (err) => {
       this.showMsgError= true;
       this.showMsgRegistration= false;

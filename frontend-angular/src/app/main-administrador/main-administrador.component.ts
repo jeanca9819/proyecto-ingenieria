@@ -4,6 +4,11 @@ import {MatTableDataSource} from '@angular/material/table';
 import { RestService } from '../rest.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import * as XLSX from 'xlsx';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+import * as FileSaver from 'file-saver';
+
 @Component({
   selector: 'app-main-administrador',
   templateUrl: './main-administrador.component.html',
@@ -11,7 +16,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class MainAdministradorComponent implements OnInit {
 
-  //queryForm: FormGroup;
   errorMessage: any;
   displayedColumns: string[] = ['idBoleta', 'fechaHora', 'asuntoDetallado', 'descripcion', 'estado', 'accion'];
   dataSource = new MatTableDataSource<any>();
@@ -19,20 +23,20 @@ export class MainAdministradorComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   showMsgError: boolean = false;
   showMsgRegistration: boolean = false;
-  idUsuario: any;
-  permiso: any;
   boletaCompleta:any;
+  idUsuario:any;
+  permiso:any;
   constructor(public rest:RestService, private route: ActivatedRoute,
-    private router: Router) {
-
-}
+    private router: Router) {}
 ngOnInit() {
-  this.idUsuario = this.route.snapshot.queryParamMap.get('idUsuario');
-  this.permiso = this.route.snapshot.queryParamMap.get('permiso');
+  localStorage.removeItem("rutaArchivoBoleta");
+  localStorage.removeItem("rutaArchivoRespuesta");
   this.getBoletas();
 }
 
   getBoletas(){
+    this.idUsuario = localStorage.getItem("idUsuario");
+    this.permiso = localStorage.getItem("permiso");
     this.rest.getBoletas(this.idUsuario, this.permiso).subscribe((data: {}) => {
       this.element = data[0][0];
       this.dataSource.data=(this.element);
@@ -43,12 +47,52 @@ ngOnInit() {
   getBoletaById(id:number){
     this.rest.getBoletaById(id).subscribe((data: {}) => {
       this.boletaCompleta = data[0][0];
-      console.log(this.boletaCompleta);
     });
   }
 
-  detalle(idBoleta:number){
-    let idUsuario2 = this.idUsuario;
-    this.router.navigate(['/resolver'], {queryParams: {  idBoleta, idUsuario2 } });
+  detalle(idBoleta:any){
+    localStorage.setItem("idBoleta", idBoleta);
+    this.router.navigate(['/resolver']);
+  }
+
+  exportarExcel(){
+
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.element);
+    const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+    const excelBuffer: any = XLSX.write(workbook, {bookType: 'xlsx' , type: 'array' });
+    const data: Blob = new Blob([excelBuffer],{
+      type: '.xlsx'
+    });
+    FileSaver.saveAs(data, 'Datos.xlsx');
+
+  }
+
+  exportarPDF(){
+    var doc = new jsPDF('l', 'mm', 'a4');
+    var col = ['Número Boleta', 'Fecha y Hora', 'Asunto Detallado', 'Descripción', 'Estado'];
+    var rows = [];
+
+    this.element.forEach(lista => {
+      rows.push([
+        lista.idBoleta,
+        lista.fechaHora,
+        lista.asuntoDetallado,
+        lista.descripcion,
+        lista.estado,
+      ]);
+    });
+    autoTable(doc, {columns: col, body: rows});
+    doc.save('Datos.pdf');
+  }
+
+  
+  salir(){
+    localStorage.removeItem("idUsuario");
+    localStorage.removeItem("permiso");
+    localStorage.removeItem("ipUsuario");
+    localStorage.removeItem("idBoleta");
+    localStorage.removeItem("rutaArchivoBoleta");
+    localStorage.removeItem("rutaArchivoRespuesta");
+    this.router.navigate(['/login']);
   }
 }

@@ -1,4 +1,5 @@
 const db_conection  = require('../config/database.js');
+const path = require('path');
 
 exports.login = (req, res) => {
 
@@ -101,9 +102,34 @@ exports.boletaById = (req, res) => {
     });
 };
 
+exports.respuestaById = (req, res) => {
+
+    const { idRespuesta } = req.params;
+
+    db_conection.sql.connect(db_conection.config, function (err) {
+
+        if (err) {
+            console.log(err);
+        }else{
+
+            db_conection.sql.query(
+                
+                "exec [dbo].[obtenerRespuesta] '" + idRespuesta + "';", function (err, result) {
+                
+                if (err) {
+                    res.json("No existe respuesta");
+                } else {
+                    res.json([[result.recordsets[0]]]);
+                }
+            });
+        }
+  
+    });
+};
+
 exports.ingresarBoleta = (req, res) => {
 
-    const { usuarioId, asuntoDetallado, ipComputadora, clasificador } = req.body;
+    const { usuarioId, asuntoDetallado, ipComputadora, clasificador, rutaArchivo } = req.body;
 
     db_conection.sql.connect(db_conection.config, function (err) {
 
@@ -113,7 +139,40 @@ exports.ingresarBoleta = (req, res) => {
                         
             db_conection.sql.query(
                 
-                "exec [dbo].[ingresarBoleta] '" + usuarioId + "','" + asuntoDetallado + "','" + ipComputadora + "','" + clasificador + "';", function (err, result) {
+                "exec [dbo].[ingresarBoleta] '" + usuarioId + "','" + asuntoDetallado + "','" + ipComputadora + "','" + clasificador + "','" + rutaArchivo + "';", function (err, result) {
+                
+                if (err) {  
+                    console.log(err);
+                } else {
+                    res.json('Ingreso Correcto');
+                }
+            });
+        }
+  
+    });
+};
+
+exports.descargarArchivo = (req, res) => {
+    
+    if (req.body.filename != null) {
+        filepath = path.join(__dirname,'/../assets') + '/' + req.body.filename;
+        res.sendFile(filepath);
+    }
+};
+
+exports.ingresarRespuesta = (req, res) => {
+
+    const { idBoleta, idUsuarioRespuesta, ipComputadora, detalleRespuesta, rutaArchivo } = req.body;
+
+    db_conection.sql.connect(db_conection.config, function (err) {
+
+        if (err) {
+            console.log(err);
+        }else{
+                        
+            db_conection.sql.query(
+                
+                "exec [dbo].[insertarRespuesta] '" + detalleRespuesta + "','" + idUsuarioRespuesta + "','" + ipComputadora + "','" + idBoleta + "','" + rutaArchivo + "';", function (err, result) {
                 
                 if (err) {  
                     console.log(err);
