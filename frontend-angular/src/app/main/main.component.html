@@ -17,9 +17,9 @@
 
 <button style="margin-left: 2%;" mat-raised-button color="accent" (click)="agregarConsulta()"> + Agregar Consulta</button>
 
-<button mat-raised-button style="background-color: green; color: white; margin: 20px;"> Excel </button>
+<button mat-raised-button style="background-color: green; color: white; margin: 20px;" (click)="exportarExcel()"> Excel </button>
 
-<button mat-raised-button color="warn"> PDF </button>
+<button mat-raised-button color="warn" (click)="exportarPDF()"> PDF </button>
 <div id="line">
   <h1>Mis Consultas</h1>
 </div>

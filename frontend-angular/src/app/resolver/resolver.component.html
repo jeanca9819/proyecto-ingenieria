@@ -1,7 +1,13 @@
 <nav>
   <ul>
     <li><a href="/administrador">Consultas</a></li>
-    <li><a href="#">Reportes</a></li>
+    <li><a href="#">Reportes</a>
+      <ul>
+        <li><a href="/reportes">Detallado</a></li>
+        <li><a href="/reportes-auditorias">Auditorías</a></li>
+        <li><a href="/reportes-fechas">Rango por Fechas</a></li>
+      </ul>
+    </li>
     <li><button mat-icon-button aria-label="Cerrar Sesión">
       <mat-icon (click)="salir()" style="color: white;">exit_to_app</mat-icon>
     </button></li>
@@ -12,38 +18,32 @@
     <mat-card class="example-card">
         <mat-card-title>Consulta # {{boleta.idBoleta}}</mat-card-title><br>
         <mat-card-content>
-          <div>
-            <label>Fecha y Hora:
-              <br /><input [disabled]="true" [(ngModel)]="boleta.fechaHora"/>
-            </label><br>
-            <label>Asunto Detallado:
-              <br /><textarea class="form-control" [disabled]="true" [(ngModel)]="boleta.asuntoDetallado"></textarea>
-            </label><br>
-            <label>Descripción:
-              <br /><input [disabled]="true" [(ngModel)]="boleta.descripcion"/>
-            </label><br>
-            <label>Estado:
-              <br /><input [disabled]="true" [(ngModel)]="boleta.estado"/>
-            </label><br>
-            <label>Nombre:
-              <br /><input [disabled]="true" [(ngModel)]="boleta.Nombre"/>
-            </label><br>
-            <label>Apellidos:
-              <br /><input [disabled]="true" [(ngModel)]="boleta.apellidos"/>
-            </label><br>
-            <label>Correo:
-              <br /><input [disabled]="true" [(ngModel)]="boleta.correo"/>
-            </label><br>
-            <br>
-            <label>Evidencia:
-              <button class="btn btn-primary" (click)="download()">Descargar</button>
-            </label>
-          </div>
+          <div><span>Fecha y Hora: </span>{{boleta.fechaHora}}</div>
+            <div><span>Asunto Detallado: </span>{{boleta.asuntoDetallado}}</div>
+            <div><span>Descripción: </span>{{boleta.descripcion}}</div>
+            <div><span>Estado: </span>{{boleta.estado}}</div>
+            <div><span>Nombre: </span>{{boleta.Nombre}}</div>
+            <div><span>Apellidos: </span>{{boleta.apellidos}}</div>
+            <div><span>Correo: </span>{{boleta.correo}}</div>
+            <div><span>Evidencia: </span><button class="btn btn-primary" style="background-color: green; color: white; margin: 20px;" (click)="download()">Descargar	▼</button></div>
         </mat-card-content>
       </mat-card>
     </div>
 
-    <div class="main-div2">
+    <div class="main-div2" *ngIf="respuestaTarjeta">
+      <mat-card class="example-card">
+          <mat-card-title>Respuesta de la boleta</mat-card-title><br>
+          <mat-card-content>
+              <div><span>Respuesta: </span>{{respuestaTarjeta.detalleRespuesta}}</div>
+              <div><span>Fecha y Hora: </span>{{respuestaTarjeta.fechaHoraRespuesta}}</div>
+              <div><span>Nombre del Encargado: </span>{{respuestaTarjeta.nombre}}</div>
+              <div><span>Apellidos del Encargado: </span>{{respuestaTarjeta.apellidos}}</div>
+              <div><span>Respuesta - Evidencia: </span><button class="btn btn-primary" style="background-color: green; color: white; margin: 20px;" (click)="downloadRespuesta()">Descargar	▼</button></div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+    <div class="main-div3" *ngIf="showMainContent">
       <mat-card class="example-card">
           <mat-card-title>Resolver Consulta</mat-card-title><br>
           <div class="row"  *ngIf="showMsgError">
@@ -56,20 +56,35 @@
               <strong>Excelente: </strong>Se registró correctamente su respuesta.
             </p>
           </div>
+
           <mat-card-content>
-            <div>
-              <label>Respuesta:
-                <textarea class="form-control" placeholder="Respuesta" autocomplete="off" id="respuesta"></textarea>
-              </label><br>
-              <br>
-              <div class="form-group row margin"> 
-                <label>Respuesta - Evidencia: </label>
-                <div class="input-icono"> 
-                  <input #fileInput type="file">
-                </div><br>
+            <form [formGroup]="respuestaForm" (ngSubmit)="responder()" #formDir="ngForm">
+              <div class="form-group row margin">
+                  <div>
+                    <textarea class="form-control" formControlName="detalleRespuesta" placeholder="Respuesta Detallada" autocomplete="off"></textarea>
+                  </div>
+                  <span class="text-danger" *ngIf="respuestaForm.hasError('required', 'detalleRespuesta') && formDir.submitted">
+                 La respuesta detallada es requerida.
+                  </span>
+                  <span class="text-danger" *ngIf="respuestaForm.hasError('pattern', 'detalleRespuesta') && formDir.submitted">
+                      Se permiten letras y números solamente. Rango de 10 - 200. 
+                    </span>
               </div>
+            <div class="form-group row margin"> 
+              <label>Evidencia: </label>
+              <div class="input-icono"> 
+                <input #fileInput type="file">
+              </div>
+              <span class="text-danger" *ngIf="respuestaForm.hasError('required', 'rutaArchivo') && formDir.submitted">
+                Se requiere un archivo. 
+              </span>
+      
             </div>
-            <button class="btn btn-primary" (click)="responder()">Resolver</button> 
+      
+                <div class="form-group">
+                  <button type="submit" mat-raised-button color="accent">Resolver Consulta</button>
+                </div>
+          </form>
           </mat-card-content>
         </mat-card>
       </div>

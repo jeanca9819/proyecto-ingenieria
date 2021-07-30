@@ -8,13 +8,21 @@
   }
   
   .main-div{
-    height: 100vh;
+    height: 80vh;
     display: flex;
     justify-content: center;
     align-items: center;
   }
 
   .main-div2{
+    height: 30vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .main-div3{
+    height: 80vh;
     display: flex;
     justify-content: center;
     align-items: center;

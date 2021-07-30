@@ -1,0 +1,32 @@
+<nav>
+    <ul>
+      <li><a href="/administrador">Consultas</a></li>
+      <li><a href="#">Reportes</a>
+        <ul>
+          <li><a href="/reportes">Detallado</a></li>
+          <li><a href="/reportes-auditorias">Auditorías</a></li>
+          <li><a href="/reportes-fechas">Rango por Fechas</a></li>
+        </ul>
+      </li>
+      <li><button mat-icon-button aria-label="Cerrar Sesión">
+        <mat-icon (click)="salir()" style="color: white;">exit_to_app</mat-icon>
+      </button></li>
+    </ul>
+  </nav>
+  <br>
+
+  <div style="display: inline-flex; margin: 0 auto;">
+    <button mat-raised-button style="background-color: green; color: white; margin: 20px;" (click)="exportarExcel()"> Excel </button>
+    <button  mat-raised-button style="color: white; margin: 20px;" color="warn" (click)="exportarPDF()"> PDF </button>
+    <label style="margin: 25px;">Filtrar por: </label>
+    <mat-form-field appearance="fill">
+      <select class="form-control" matNativeControl required>
+        <option value="1">Mes</option>
+        <option value="2">Departamento</option>
+        <option value="3">Usuario</option>
+        <option value="4">Tema interés</option>
+      </select>
+    </mat-form-field>
+    <input style="margin: 20px; width: 400px;" class="form-control" type="text" formControlName="filtrar" placeholder="Filtrar" autocomplete="off">
+    <button style="margin: 20px; height: 33px;" type="button" class="btn btn-info">Filtrar</button>
+  </div>

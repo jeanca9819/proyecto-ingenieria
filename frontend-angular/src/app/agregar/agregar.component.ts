@@ -25,13 +25,15 @@ export class AgregarComponent implements OnInit {
         usuarioId: 0,
         asuntoDetallado: new FormControl('', [
           Validators.required,
-          Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ\\s]{10,200}$')
+          Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ@#$%^&*(),.¿?¡!\\s]{10,200}$')
         ]),
         ipComputadora: '',
         clasificador: new FormControl('', [
           Validators.required
         ]),
-        rutaArchivo: ''
+        rutaArchivo: new FormControl('', [
+          Validators.required
+        ]),
     })
 
   }
@@ -51,6 +53,14 @@ export class AgregarComponent implements OnInit {
   
   add() {
     
+    const fileBlob = this.fileInput.nativeElement.files[0];
+    const file = new FormData();
+    file.set('file', fileBlob);
+
+    if (fileBlob){
+      this.queryForm.controls['rutaArchivo'].setValue(fileBlob.name);
+    } 
+
     if (!this.queryForm.valid) {
       return;
     }
@@ -60,25 +70,20 @@ export class AgregarComponent implements OnInit {
     this.queryForm.controls['usuarioId'].setValue(idUsuario);
     this.queryForm.controls['ipComputadora'].setValue(ipAddress);
 
-    const fileBlob = this.fileInput.nativeElement.files[0];
-    const file = new FormData();
-    file.set('file', fileBlob);
+      this.rest.enviarEvidencia(file).subscribe((result) => {
+        console.log(result);
+      }, (err) => {
+        console.log(err);
+      });
+  
+      this.rest.addBoleta(this.queryForm.value).subscribe((result) => {
+        this.showMsgError= false;
+        this.showMsgRegistration= true;
+      }, (err) => {
+        this.showMsgError= true;
+        this.showMsgRegistration= false;
+      });
 
-    this.rest.enviarEvidencia(file).subscribe((result) => {
-      console.log(result);
-    }, (err) => {
-      console.log(err);
-    });
-
-    this.queryForm.controls['rutaArchivo'].setValue(fileBlob.name);
-
-    this.rest.addBoleta(this.queryForm.value).subscribe((result) => {
-      this.showMsgError= false;
-      this.showMsgRegistration= true;
-    }, (err) => {
-      this.showMsgError= true;
-      this.showMsgRegistration= false;
-    });
   }
   
 

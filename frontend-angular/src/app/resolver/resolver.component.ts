@@ -1,7 +1,7 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { RestService } from '../rest.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { VisitorsService } from '../visitors.service';
 import { saveAs } from "file-saver";
 
@@ -14,9 +14,11 @@ export class ResolverComponent implements OnInit {
 
   boleta:any;
   respuesta:any;
+  respuestaTarjeta:any;
   respuestaForm: FormGroup;
   showMsgError: boolean = false;
   showMsgRegistration: boolean = false;
+  showMainContent: boolean = true;
 
   @ViewChild('fileInput', { static: false}) fileInput: ElementRef;
   
@@ -27,8 +29,13 @@ export class ResolverComponent implements OnInit {
         idBoleta: 0,
         idUsuarioRespuesta: 0,
         ipComputadora: '',
-        detalleRespuesta: '',
-        rutaArchivo: '' 
+        detalleRespuesta: new FormControl('', [
+          Validators.required,
+          Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ@#$%^&*(),.¿?¡!\\s]{10,200}$')
+        ]),
+        rutaArchivo: new FormControl('', [
+          Validators.required
+        ]),
       });
      }
 
@@ -41,27 +48,44 @@ export class ResolverComponent implements OnInit {
     this.rest.getBoletaById(localStorage.getItem("idBoleta")).subscribe((data: {}) => {
       this.boleta = data[0][0][0];
       localStorage.setItem("rutaArchivoBoleta", this.boleta.rutaArchivo);
+      let idRespuestaObtenido = this.boleta.idRespuesta;
+      if(idRespuestaObtenido != null){
+        this.obtenerRespuesta(idRespuestaObtenido);
+        this.showMainContent = false;
+      }
+    });
+  }
+
+  obtenerRespuesta(idRespuesta){
+    this.rest.getRespuestaById(idRespuesta).subscribe((data: {}) => {
+      this.respuestaTarjeta = data[0][0][0];
+        localStorage.setItem("rutaArchivoRespuesta", this.respuestaTarjeta.rutaArchivo);
     });
   }
 
   responder(){
-    this.respuesta = (<HTMLInputElement>document.getElementById("respuesta")).value;
-    this.respuestaForm.controls['idBoleta'].setValue( localStorage.getItem("idBoleta"));
-    this.respuestaForm.controls['idUsuarioRespuesta'].setValue(localStorage.getItem("idUsuario"));
-    this.respuestaForm.controls['ipComputadora'].setValue(localStorage.getItem("ipUsuario"));
-    this.respuestaForm.controls['detalleRespuesta'].setValue(this.respuesta);
-
+    
     const fileBlob = this.fileInput.nativeElement.files[0];
     const file = new FormData();
     file.set('file', fileBlob);
+
+    if (fileBlob){
+      this.respuestaForm.controls['rutaArchivo'].setValue(fileBlob.name);
+    } 
+
+    if (!this.respuestaForm.valid) {
+      return;
+    }
+
+    this.respuestaForm.controls['idBoleta'].setValue( localStorage.getItem("idBoleta"));
+    this.respuestaForm.controls['idUsuarioRespuesta'].setValue(localStorage.getItem("idUsuario"));
+    this.respuestaForm.controls['ipComputadora'].setValue(localStorage.getItem("ipUsuario"));
 
     this.rest.enviarEvidencia(file).subscribe((result) => {
       console.log(result);
     }, (err) => {
       console.log(err);
     });
-
-    this.respuestaForm.controls['rutaArchivo'].setValue(fileBlob.name);
 
     this.rest.addRespuesta(this.respuestaForm.value).subscribe((result) => {
       this.showMsgError= false;
@@ -80,9 +104,18 @@ export class ResolverComponent implements OnInit {
     });
   }
 
+  downloadRespuesta(){
+    let filename = localStorage.getItem("rutaArchivoRespuesta");
+    this.rest.download(filename).subscribe((data)=>{
+        console.log(data);
+        saveAs(data, filename);
+    });
+  }
+
   atras(){
     this.router.navigate(['/administrador']);
     localStorage.removeItem("rutaArchivoBoleta");
+    localStorage.removeItem("rutaArchivoRespuesta");
   } 
   salir(){
     localStorage.removeItem("idUsuario");
@@ -90,6 +123,7 @@ export class ResolverComponent implements OnInit {
     localStorage.removeItem("ipUsuario");
     localStorage.removeItem("idBoleta");
     localStorage.removeItem("rutaArchivoBoleta");
+    localStorage.removeItem("rutaArchivoRespuesta");
     this.router.navigate(['/login']);
   }
 }

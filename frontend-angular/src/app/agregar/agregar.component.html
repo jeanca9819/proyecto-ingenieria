@@ -49,9 +49,13 @@
 
           <div class="form-group row margin"> 
             <label>Evidencia: </label>
+            <p>Adjunte la foto de su cédula si no posee alguna evidencia.</p>
             <div class="input-icono"> 
               <input #fileInput type="file">
             </div>
+            <span class="text-danger" *ngIf="queryForm.hasError('required', 'rutaArchivo') && formDir.submitted">
+              Se requiere un archivo. 
+            </span>
 
           </div>
 
